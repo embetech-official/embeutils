@@ -10,6 +10,8 @@ option(CONFIG_EMBEUTILS_BUILD_TESTS "Forces building test cases" PROJECT_IS_TOP_
 
 include(requirements.cmake)
 
+add_subdirectory(include)
+
 if (CONFIG_EMBEUTILS_BUILD_TESTS)
   enable_testing()
   add_subdirectory(tests)
