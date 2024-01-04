@@ -15,6 +15,6 @@ if (CONFIG_EMBEUTILS_EXTRA_CHECKS)
   target_compile_definitions(embeutils INTERFACE CONFIG_EMBEUTILS_EXTRA_CHECKS=1)
 endif ()
 
-if (CONFIG_EMBEUTILS_ENABLE_INSTALL_TARGET)
+if (CONFIG_EMBEUTILS_INSTALL)
   include(${PROJECT_SOURCE_DIR}/cmake/embeutils_install.cmake)
 endif ()
