@@ -16,5 +16,5 @@ add_subdirectory(src)
 
 if (CONFIG_EMBEUTILS_BUILD_TESTS)
   enable_testing()
-  add_subdirectory(tests)
+  add_subdirectory(tests EXCLUDE_FROM_ALL)
 endif ()
