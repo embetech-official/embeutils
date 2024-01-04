@@ -10,8 +10,6 @@ option(CONFIG_EMBEUTILS_TESTS "Configures test cases" ${PROJECT_IS_TOP_LEVEL})
 
 option(CONFIG_EMBEUTILS_INSTALL "Configures install target" ${PROJECT_IS_TOP_LEVEL})
 
-include(requirements.cmake)
-
 add_subdirectory(src)
 
 if (CONFIG_EMBEUTILS_TESTS)
