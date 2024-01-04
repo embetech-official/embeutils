@@ -9,7 +9,8 @@
     "configurePresets": [
         {
             "name": "default",
-            "displayName": "Testing",
+            "displayName": "Default",
+            "description": "Default build configuration",
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build",
             "installDir": "${sourceDir}/release",
