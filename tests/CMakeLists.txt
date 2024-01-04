@@ -1,5 +1,6 @@
 project(embeutils_ut LANGUAGES CXX C)
 
+include(FetchContent)
 
 cmake_policy(SET CMP0135 NEW)
 FetchContent_Declare(
