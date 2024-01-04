@@ -15,9 +15,7 @@
             "binaryDir": "${sourceDir}/build",
             "installDir": "${sourceDir}/release",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug",
-                "CONFIG_EMBEUTILS_BUILD_TESTS": "ON",
-                "CONFIG_EMBEUTILS_ENABLE_INSTALL_TARGET": "ON"
+                "CONFIG_EMBEUTILS_EXTRA_CHECKS": "ON"
             }
         }
     ],
