@@ -8,6 +8,8 @@ option(CONFIG_EMBEUTILS_EXTRA_CHECKS "Enables additional checks at runtime" OFF)
 
 option(CONFIG_EMBEUTILS_BUILD_TESTS "Forces building test cases" PROJECT_IS_TOP_LEVEL)
 
+option(CONFIG_EMBEUTILS_ENABLE_INSTALL_TARGET "Enables install target" PROJECT_IS_TOP_LEVEL)
+
 include(requirements.cmake)
 
 add_subdirectory(src)
