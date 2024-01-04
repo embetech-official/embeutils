@@ -39,7 +39,10 @@
         },
         {
             "name": "release",
-            "configurePreset": "release"
+            "configurePreset": "release",
+            "targets": [
+                "install"
+            ]
         }
     ],
     "testPresets": [
