@@ -6,13 +6,13 @@ option(CONFIG_EMBEUTILS_EXPECT_VERBOSE "Enables verbose messages in abort handle
 
 option(CONFIG_EMBEUTILS_EXTRA_CHECKS "Enables additional checks at runtime" OFF)
 
-option(CONFIG_EMBEUTILS_TESTS "Configures test cases" ${PROJECT_IS_TOP_LEVEL})
+option(CONFIG_EMBEUTILS_TESTS "Build test cases" OFF)
 
-option(CONFIG_EMBEUTILS_INSTALL "Configures install target" ${PROJECT_IS_TOP_LEVEL})
+option(CONFIG_EMBEUTILS_INSTALL "Configure install target" ON)
 
 add_subdirectory(src)
 
-if (CONFIG_EMBEUTILS_TESTS)
+if (CONFIG_EMBEUTILS_TESTS OR PROJECT_IS_TOP_LEVEL)
   enable_testing()
   add_subdirectory(tests EXCLUDE_FROM_ALL)
 endif ()
