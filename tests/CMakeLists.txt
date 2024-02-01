@@ -1,4 +1,4 @@
-project(embeutils_ut LANGUAGES CXX C)
+project(embeutils_ut)
 
 include(FetchContent)
 

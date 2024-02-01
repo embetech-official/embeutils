@@ -73,7 +73,7 @@ extern "C" {
  * <b>Standard and extra checks</b>
  *
  * For convenience the EXPECT library provides two levels of checks - standard checks and extra checks.
- * Extra checks are defined with the _EXTRA suffix. These checks are only performed if the CONFIG_EMBEUTILS_EXTRA_CHECKS
+ * Extra checks are defined with the _EXTRA suffix. These checks are only performed if the EMBEUTILS_EXTRA_CHECKS
  * definition is visible when building the code.
  *
  * For example:
@@ -89,14 +89,14 @@ extern "C" {
  * During initial development of the application, it is benefitial to quickly get the information about the abort location, and reason.
  * To enable this, you have to provide the following macro:
  * @code
- * CONFIG_EMBEUTILS_EXPECT_VERBOSE=1
+ * EMBEUTILS_EXPECT_VERBOSE=1
  * @endcode
  *
  * @{
  */
 
-#ifndef CONFIG_EMBEUTILS_EXPECT_VERBOSE
-#define CONFIG_EMBEUTILS_EXPECT_VERBOSE 0 ///< When enabled, increases verbosity of information passed to EXPECT_OnAbortHandler
+#ifndef EMBEUTILS_EXPECT_VERBOSE
+#define EMBEUTILS_EXPECT_VERBOSE 0 ///< When enabled, increases verbosity of information passed to EXPECT_OnAbortHandler
                                           ///< @note Enabling this macro WILL generate measurable memory overhead
 #endif
 
@@ -120,9 +120,9 @@ EXPECT_INTERNAL_NORETURN void EXPECT_OnAbortHandler(char const *why, char const 
  * @def EXPECT_EXTRA(expr)
  * @copydoc EXPECT
  * As the evaluation of the expression may be time consuming, it is possible to globally disable this kind of runtime checks by defining
- * CONFIG_EMBEUTILS_EXTRA_CHECKS to 0
+ * EMBEUTILS_EXTRA_CHECKS to 0
  */
-#if(defined CONFIG_EMBEUTILS_EXTRA_CHECKS) && (CONFIG_EMBEUTILS_EXTRA_CHECKS == 1)
+#if(defined EMBEUTILS_EXTRA_CHECKS) && (EMBEUTILS_EXTRA_CHECKS == 1)
 #define EXPECT_EXTRA(expr) EXPECT(expr)
 #else
 #define EXPECT_EXTRA(expr) if(0)
@@ -149,7 +149,7 @@ EXPECT_INTERNAL_NORETURN void EXPECT_OnAbortHandler(char const *why, char const 
  */
 #define OR_RETURN(retval) return retval
 
-#if 1 == CONFIG_EMBEUTILS_EXPECT_VERBOSE
+#if 1 == EMBEUTILS_EXPECT_VERBOSE
 #define EXPECT_INTERNAL_CALL_ABORT_HANDLER(why) EXPECT_OnAbortHandler("" why, __FILE__, __LINE__)
 #else
 #define EXPECT_INTERNAL_CALL_ABORT_HANDLER(why) EXPECT_OnAbortHandler("<verbose-disabled>", "<verbose-disabled>", 0)
