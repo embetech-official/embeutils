@@ -1,0 +1,43 @@
+name: On Push
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  ut:
+    runs-on: [self-hosted, linux, x64]
+    steps:
+      - uses: lukka/get-cmake@latest
+        with:
+          useLocalCache: true
+      
+      - uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake --preset native
+
+      - name: Build tests
+        run: cmake --build --preset ut
+
+      - name: Test
+        run: ctest --preset native
+  
+  doc:
+    runs-on: [self-hosted, linux, x64]
+    steps:
+      - uses: lukka/get-cmake@latest
+        with:
+          useLocalCache: true
+      
+      - uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake --preset native
+
+      - name: Generate documentation
+        run: cmake --build --preset documentation
+
+
+        
+

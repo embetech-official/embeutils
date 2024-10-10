@@ -24,22 +24,31 @@
     "buildPresets": [
         {
             "name": "native",
+           
             "configurePreset": "native"
         },
         {
-            "name": "testing",
+            "name": "ut",
+            "description": "Unit tests",
             "configurePreset": "native",
             "targets": "embeutils_ut"
         },
         {
+            "name": "documentation",
+            "description": "Generate documentation",
+            "configurePreset": "native",
+            "targets": "embeutils_doc"
+        },
+        {
             "name": "install",
+            "description": "Release target",
             "configurePreset": "native",
             "targets": "install"
         }
     ],
     "testPresets": [
         {
-            "name": "testing",
+            "name": "native",
             "configurePreset": "native",
             "output": {
                 "outputOnFailure": true
