@@ -8,12 +8,12 @@
     "include": [],
     "configurePresets": [
         {
-            "name": "default",
-            "displayName": "Default",
+            "name": "native",
+            "displayName": "Native",
             "description": "Default build configuration",
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build",
-            "installDir": "${sourceDir}/release",
+            "installDir": "${sourceDir}/build/install",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
                 "EMBEUTILS_EXTRA_CHECKS": "ON",
@@ -23,24 +23,24 @@
     ],
     "buildPresets": [
         {
-            "name": "testing",
-            "configurePreset": "default",
-            "targets": [
-                "embeutils_ut"
-            ]
+            "name": "native",
+            "configurePreset": "native"
         },
         {
-            "name": "release",
-            "configurePreset": "default",
-            "targets": [
-                "install"
-            ]
+            "name": "testing",
+            "configurePreset": "native",
+            "targets": "embeutils_ut"
+        },
+        {
+            "name": "install",
+            "configurePreset": "native",
+            "targets": "install"
         }
     ],
     "testPresets": [
         {
             "name": "testing",
-            "configurePreset": "default",
+            "configurePreset": "native",
             "output": {
                 "outputOnFailure": true
             },
