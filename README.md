@@ -1,5 +1,3 @@
-[![C++ Unit Tests](https://github.com/embetech-official/embeutils/actions/workflows/cpp_unit_tests.yml/badge.svg)](https://github.com/embetech-official/embeutils/actions/workflows/cpp_unit_tests.yml)
-
 # Embeutils - utilities for embedded firmware projects
 
 This is a small header-only library with some tools that are usefull for embedded firmware projects.\
