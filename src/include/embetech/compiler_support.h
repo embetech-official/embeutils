@@ -7,8 +7,8 @@
 @brief     A set of tools for working with compiler-specific attributes
 */
 
-#ifndef EMBEUTILS_COMPILER_SUPPORT_H_
-#define EMBEUTILS_COMPILER_SUPPORT_H_
+#ifndef EMBETECH_COMPILER_SUPPORT_H_
+#define EMBETECH_COMPILER_SUPPORT_H_
 
 #ifdef __GNUC__
 
@@ -113,4 +113,4 @@
 #endif
 #endif
 
-#endif // EMBEUTILS_COMPILER_SUPPORT_H_
+#endif // EMBETECH_COMPILER_SUPPORT_H_

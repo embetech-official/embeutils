@@ -7,8 +7,8 @@
 @brief     A set of simple utilities to manage error handling in a unified way
 */
 
-#ifndef EMBEUTILS_EXPECT_H_
-#define EMBEUTILS_EXPECT_H_
+#ifndef EMBETECH_EXPECT_H_
+#define EMBETECH_EXPECT_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -190,4 +190,4 @@ EXPECT_INTERNAL_NORETURN void EXPECT_OnAbortHandler(char const *why, char const 
 
 /** @} */
 
-#endif // EMBEUTILS_EXPECT_H_
+#endif // EMBETECH_EXPECT_H_

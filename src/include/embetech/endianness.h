@@ -7,8 +7,8 @@
 @brief     A set of utilities to handle endianness
 */
 
-#ifndef EMBEUTILS_ENDIANNESS_H_
-#define EMBEUTILS_ENDIANNESS_H_
+#ifndef EMBETECH_ENDIANNESS_H_
+#define EMBETECH_ENDIANNESS_H_
 
 
 #include <embetech/compiler_support.h>
@@ -231,4 +231,4 @@ static inline uint64_t ENDIANNESS_ntoh64(uint64_t network) {
 #endif
 
 
-#endif // EMBEUTILS_ENDIANNESS_H_
+#endif // EMBETECH_ENDIANNESS_H_
