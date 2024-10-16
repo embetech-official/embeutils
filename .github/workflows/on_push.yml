@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Configure
-        run: cmake --preset native
+        run: cmake --preset native -EMBEUTILS_DOC=OFF
 
       - name: Build tests
         run: cmake --build --preset ut
@@ -29,7 +29,9 @@ jobs:
       - uses: lukka/get-cmake@latest
         with:
           useLocalCache: true
-      
+      - name: Get Doxygen
+        run: sudo apt install doxygen -y
+        
       - uses: actions/checkout@v4
 
       - name: Configure
