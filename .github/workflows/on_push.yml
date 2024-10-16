@@ -6,7 +6,7 @@ on:
 
 jobs:
   ut:
-    runs-on: [self-hosted, linux, x64]
+    runs-on: ubuntu-latest
     steps:
       - uses: lukka/get-cmake@latest
         with:
@@ -24,7 +24,7 @@ jobs:
         run: ctest --preset native
   
   doc:
-    runs-on: [self-hosted, linux, x64]
+    runs-on: ubuntu-latest
     steps:
       - uses: lukka/get-cmake@latest
         with:
