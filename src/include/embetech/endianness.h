@@ -1,3 +1,12 @@
+/**
+@file
+@license   MIT license
+@copyright Embetech sp. z o.o.
+@version   $Revision$
+@purpose   Embeutils library
+@brief     A set of utilities to handle endianness
+*/
+
 #ifndef EMBEUTILS_ENDIANNESS_H_
 #define EMBEUTILS_ENDIANNESS_H_
 
@@ -222,4 +231,4 @@ static inline uint64_t ENDIANNESS_ntoh64(uint64_t network) {
 #endif
 
 
-#endif /* EMBENET_NODE_ENDIANNESS_H_ */
+#endif // EMBEUTILS_ENDIANNESS_H_

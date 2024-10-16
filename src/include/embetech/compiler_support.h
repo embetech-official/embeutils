@@ -1,3 +1,12 @@
+/**
+@file
+@license   MIT license
+@copyright Embetech sp. z o.o.
+@version   $Revision$
+@purpose   Embeutils library
+@brief     A set of tools for working with compiler-specific attributes
+*/
+
 #ifndef EMBEUTILS_COMPILER_SUPPORT_H_
 #define EMBEUTILS_COMPILER_SUPPORT_H_
 
@@ -104,4 +113,4 @@
 #endif
 #endif
 
-#endif
+#endif // EMBEUTILS_COMPILER_SUPPORT_H_

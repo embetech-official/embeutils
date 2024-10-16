@@ -1,5 +1,14 @@
-#ifndef EXPECT_H_
-#define EXPECT_H_
+/**
+@file
+@license   MIT license
+@copyright Embetech sp. z o.o.
+@version   $Revision$
+@purpose   Embeutils library
+@brief     A set of simple utilities to manage error handling in a unified way
+*/
+
+#ifndef EMBEUTILS_EXPECT_H_
+#define EMBEUTILS_EXPECT_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -96,8 +105,11 @@ extern "C" {
  */
 
 #ifndef EMBEUTILS_EXPECT_VERBOSE
-#define EMBEUTILS_EXPECT_VERBOSE 0 ///< When enabled, increases verbosity of information passed to EXPECT_OnAbortHandler
-                                          ///< @note Enabling this macro WILL generate measurable memory overhead
+/**
+ * When enabled, increases verbosity of information passed to EXPECT_OnAbortHandler
+ * @note Enabling this macro WILL generate measurable memory overhead
+ */
+#define EMBEUTILS_EXPECT_VERBOSE 0 
 #endif
 
 /// @internal @brief Noreturn attribute
@@ -178,4 +190,4 @@ EXPECT_INTERNAL_NORETURN void EXPECT_OnAbortHandler(char const *why, char const 
 
 /** @} */
 
-#endif // EXPECT_H_
+#endif // EMBEUTILS_EXPECT_H_
