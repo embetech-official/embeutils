@@ -1,5 +1,7 @@
 # Embeutils - utilities for embedded firmware projects
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b845bae66613482a8847ed05b6269ed5)](https://app.codacy.com/gh/embetech-official/embeutils?utm_source=github.com&utm_medium=referral&utm_content=embetech-official/embeutils&utm_campaign=Badge_Grade)
+
 This is a small header-only library with some tools that are usefull for embedded firmware projects.\
 The tools include:
 - compiler_support.h which provides a set of macros controlling compiler-specific attributes
