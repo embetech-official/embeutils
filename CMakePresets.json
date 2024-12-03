@@ -10,21 +10,26 @@
         {
             "name": "native",
             "displayName": "Native",
-            "description": "Default build configuration",
-            "generator": "Ninja",
-            "binaryDir": "${sourceDir}/build",
-            "installDir": "${sourceDir}/build/install",
+            "description": "Let CMake choose the compiler",
+            "generator": "Ninja Multi-Config",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "installDir": "${sourceDir}/build/${presetName}/install",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug",
-                "EMBEUTILS_EXTRA_CHECKS": "ON",
-                "CMAKE_C_FLAGS": "-Werror -Wall -Wextra -Wpedantic -Wunused-parameter -Winit-self -Wcast-align -Wconversion -Wnull-dereference -Wduplicated-cond  -Wsign-conversion -Wlogical-op"
+                "CMAKE_CXX_SCAN_FOR_MODULES": "OFF",
+                "CMAKE_CONFIGURATION_TYPES": "Release;Debug",
+                "CMAKE_DEFAULT_BUILD_TYPE": "Release",
+                "CMAKE_DEBUG_POSTFIX": "-debug",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+            },
+            "environment": {
+                "CFLAGS": "-Wall -Wextra -Wpedantic -Wunused-parameter -Winit-self -Wcast-align -Wconversion -Wnull-dereference -Wduplicated-cond  -Wsign-conversion -Wlogical-op",
+                "CXXFLAGS": "-Wall -Wextra -Wpedantic -Wunused-parameter -Winit-self -Wcast-align -Wconversion -Wnull-dereference -Wduplicated-cond  -Wsign-conversion -Wlogical-op"
             }
         }
     ],
     "buildPresets": [
         {
             "name": "native",
-           
             "configurePreset": "native"
         },
         {

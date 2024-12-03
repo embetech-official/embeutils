@@ -1,14 +1,14 @@
 /**
-@file
-@license   MIT license
-@copyright Embetech sp. z o.o.
-@version   $Revision$
-@purpose   Embeutils library
-@brief     A set of tools for working with compiler-specific attributes
-*/
+ * @file
+ * @license   ${PROJECT_LICENSE}
+ * @copyright ${PROJECT_COPYRIGHT}
+ * @version   ${PROJECT_VERSION}
+ * @purpose   Embeutils library
+ * @brief     A set of tools for working with compiler-specific attributes
+ */
 
-#ifndef EMBETECH_COMPILER_SUPPORT_H_
-#define EMBETECH_COMPILER_SUPPORT_H_
+#ifndef EMBEUTILS_COMPILER_SUPPORT_H_
+#define EMBEUTILS_COMPILER_SUPPORT_H_
 
 #ifdef __GNUC__
 
@@ -25,7 +25,7 @@
 #define EMBEUTILS_NODISCARD __attribute__((unused))
 
 ///@brief Indicates that the fall through from the previous case label is intentional and should not be diagnosed by a compiler that warns on
-///fallthrough
+/// fallthrough
 #define EMBEUTILS_FALLTHROUGH __attribute__((fallthrough))
 
 #define EMBEUTILS_INLINE __attribute__((always_inline))
@@ -73,11 +73,11 @@
 #endif
 
 #ifndef EMBEUTILS_STATIC_ASSERT
-#if(__STDC_VERSION__ >= 202311L) || (__cplusplus >= 201103L)
+#if (__STDC_VERSION__ >= 202311L) || (__cplusplus >= 201103L)
 #include <assert.h>
 /// Static assertion macro
 #define EMBEUTILS_STATIC_ASSERT(...) static_assert(__VA_ARGS__)
-#elif(__STDC_VERSION__ >= 201112L) || defined(__GNUC__)
+#elif (__STDC_VERSION__ >= 201112L) || defined(__GNUC__)
 #define EMBEUTILS_STATIC_ASSERT(...) _Static_assert(__VA_ARGS__)
 #else
 #pragma message "No known static_assert support, please define EMBEUTILS_STATIC_ASSERT(x) macro"
@@ -86,7 +86,7 @@
 #endif
 
 #ifndef EMBEUTILS_ALIGNAS
-#if(__STDC_VERSION__ >= 202311L) || (__cplusplus >= 201103L)
+#if (__STDC_VERSION__ >= 202311L) || (__cplusplus >= 201103L)
 #include <stdalign.h>
 /// Alignment attribute for the structure
 #define EMBEUTILS_ALIGNAS(x) alignas(x)
@@ -100,7 +100,7 @@
 #endif
 
 #ifndef EMBEUTILS_ALIGNOF
-#if(__STDC_VERSION__ >= 202311L) || (__cplusplus >= 201103L)
+#if (__STDC_VERSION__ >= 202311L) || (__cplusplus >= 201103L)
 #include <stdalign.h>
 /// Alignment attribute for the structure
 #define EMBEUTILS_ALIGNOF(x) alignof(x)
@@ -113,4 +113,4 @@
 #endif
 #endif
 
-#endif // EMBETECH_COMPILER_SUPPORT_H_
+#endif
