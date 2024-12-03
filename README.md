@@ -1,5 +1,6 @@
 # Embeutils - utilities for embedded firmware projects
 
+[![Unit Tests](https://github.com/embetech-official/embeutils/actions/workflows/unit_tests.yml/badge.svg)](https://github.com/embetech-official/embeutils/actions/workflows/unit_tests.yml)
 ![GitHub Release](https://img.shields.io/github/v/release/embetech-official/embeutils)
 ![GitHub License](https://img.shields.io/github/license/embetech-official/embeutils)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/dfab6840a2af4fb890993c76798a587e)](https://app.codacy.com/gh/embetech-official/embeutils/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
