@@ -134,7 +134,7 @@ EXPECT_INTERNAL_NORETURN void EXPECT_OnAbortHandler(char const *why, char const 
  * As the evaluation of the expression may be time consuming, it is possible to globally disable this kind of runtime checks by defining
  * EMBEUTILS_EXTRA_CHECKS to 0
  */
-#if (defined EMBEUTILS_EXTRA_CHECKS) && (EMBEUTILS_EXTRA_CHECKS == 1)
+#if(1 == EMBEUTILS_EXTRA_CHECKS)
 #define EXPECT_EXTRA(expr) EXPECT(expr)
 #else
 #define EXPECT_EXTRA(expr) if(0)

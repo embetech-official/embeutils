@@ -1,8 +1,10 @@
 cmake_minimum_required(VERSION 3.25)
 
-project(embeutils VERSION 1.0.2)
+project(embeutils VERSION 1.0.3)
 
-option(EMBEUTILS_EXPECT_VERBOSE "Enables verbose messages in abort handler" OFF)
+# The verbose messages are enabled by default in Debug builds. If you want to force DISABLE them,
+# you need to unset the cache variable and set non-cache variable to OFF
+option(EMBEUTILS_EXPECT_VERBOSE "Forces verbose messages in abort handler" OFF)
 option(EMBEUTILS_EXTRA_CHECKS "Enables additional checks at runtime" OFF)
 
 option(EMBEUTILS_TESTS "Build test cases" ${PROJECT_IS_TOP_LEVEL})

@@ -12,10 +12,50 @@ The tools include:
 - endianess.h which provides tools for manipulating the endianess
 - expect.h which provides a set of tools to organize error handling and make it more explicit
 
-## Installation
+## Quick start
+### 1. Get the library
+```cmake
+include(FetchContent)
 
-While there are many methods, the intended way of working with this component is to include the library as a CMake dependency in your project using the [**FetchContent**](https://cmake.org/cmake/help/latest/module/FetchContent.html) CMake module.
+# Remove FIND_PACKAGE_ARGS when using CMake < 3.24
+FetchContent_Declare(embeutils https://github.com/embetech-official/embeutils/archive/refs/tags/v1.zip FIND_PACKAGE_ARGS)
 
-## Usage
 
-Just include the header file and use its contents.
+# If you need to set configuration options, this is the last spot to do so
+
+FetchContent_MakeAvailable(embeutils)
+```
+
+
+### 2. Link with your target
+```cmake
+target_link_libraries(my_target PRIVATE embetech::utils)
+```
+
+### 3. All set to go
+```c
+#include <embetech/expect.h>
+
+void do_work(void* data) {
+    EXPECT(data != NULL) OR_ABORT("data must be non-null");
+}
+```
+
+## Components
+
+### Endianness support
+The component provides functions to convert data representation between little- and big-endian.
+When using C11 compliant compiler, there are Generic selection conversion macros.
+
+### Compiler support
+
+### Contracts
+
+
+## Configuration
+- **EMBEUTILS_EXPECT_VERBOSE**: Force enables verbose messages in EXPECT macros.
+
+- **EMBEUTILS_EXTRA_CHECKS** : Force enables additional runtime checks (executed via **EXPECT_EXTRA** macro)
+
+> [!IMPORTANT]
+> The default behaviour is to enable both EXPECT_EXTRA and verbose messages in DEBUG build configuration. If you wish to force **disable** the options, unset appropriate cache variables and set non-cache variables to OFF

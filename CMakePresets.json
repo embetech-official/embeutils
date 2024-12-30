@@ -36,6 +36,7 @@
             "name": "ut",
             "description": "Unit tests",
             "configurePreset": "native",
+            "configuration": "Debug",
             "targets": "embeutils_ut"
         },
         {
