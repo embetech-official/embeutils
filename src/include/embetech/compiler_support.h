@@ -56,12 +56,7 @@
  * void func2(void* dst, void* src) EMBEUTILS_NONNULL(2) - only src MUST NOT take nullptr
  * @note GNU compiler checks this only with -Wnonnull flag (which is included in -Wall)
  */
-// #    define EMBEUTILS_NONNULL(...) __attribute__((nonnull(__VA_ARGS__)))
-#define EMBEUTILS_NONNULL(...)
-
-
-/// Expands to the name of the input file as a C-string constant
-#define EMBEUTILS_FILE_NAME  __FILE_NAME__
+#define EMBEUTILS_NONNULL(...) __attribute__((nonnull(__VA_ARGS__)))
 
 
 #else
@@ -78,11 +73,11 @@
 #endif
 
 #ifndef EMBEUTILS_STATIC_ASSERT
-#if (__STDC_VERSION__ >= 202311L) || (__cplusplus >= 201103L)
+#if(__STDC_VERSION__ >= 202311L) || (__cplusplus >= 201103L)
 #include <assert.h>
 /// Static assertion macro
 #define EMBEUTILS_STATIC_ASSERT(...) static_assert(__VA_ARGS__)
-#elif (__STDC_VERSION__ >= 201112L) || defined(__GNUC__)
+#elif(__STDC_VERSION__ >= 201112L) || defined(__GNUC__)
 #define EMBEUTILS_STATIC_ASSERT(...) _Static_assert(__VA_ARGS__)
 #else
 #pragma message "No known static_assert support, please define EMBEUTILS_STATIC_ASSERT(x) macro"
@@ -91,7 +86,7 @@
 #endif
 
 #ifndef EMBEUTILS_ALIGNAS
-#if (__STDC_VERSION__ >= 202311L) || (__cplusplus >= 201103L)
+#if(__STDC_VERSION__ >= 202311L) || (__cplusplus >= 201103L)
 #include <stdalign.h>
 /// Alignment attribute for the structure
 #define EMBEUTILS_ALIGNAS(x) alignas(x)
@@ -105,7 +100,7 @@
 #endif
 
 #ifndef EMBEUTILS_ALIGNOF
-#if (__STDC_VERSION__ >= 202311L) || (__cplusplus >= 201103L)
+#if(__STDC_VERSION__ >= 202311L) || (__cplusplus >= 201103L)
 #include <stdalign.h>
 /// Alignment attribute for the structure
 #define EMBEUTILS_ALIGNOF(x) alignof(x)

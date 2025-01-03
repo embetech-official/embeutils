@@ -164,7 +164,7 @@ EXPECT_INTERNAL_NORETURN void EXPECT_OnAbortHandler(char const *why, char const 
 #define OR_RETURN(retval) return retval
 
 #if 1 == EMBEUTILS_EXPECT_VERBOSE
-#define EXPECT_INTERNAL_CALL_ABORT_HANDLER(why) EXPECT_OnAbortHandler("" why, EMBEUTILS_FILE_NAME, __LINE__)
+#define EXPECT_INTERNAL_CALL_ABORT_HANDLER(why) EXPECT_OnAbortHandler("" why, __FILE__, __LINE__)
 #else
 #define EXPECT_INTERNAL_CALL_ABORT_HANDLER(why) EXPECT_OnAbortHandler("<verbose-disabled>", "<verbose-disabled>", 0)
 #endif
@@ -182,7 +182,7 @@ EXPECT_INTERNAL_NORETURN void EXPECT_OnAbortHandler(char const *why, char const 
 #define OR_THROW(expr) throw(expr)
 #else
 #define EXPECT_INTERNAL_STR(x) #x
-#define OR_THROW(expr) EXPECT_OnAbortHandler("Caught exception: " EXPECT_INTERNAL_STR(expr), EMBEUTILS_FILE_NAME, __LINE__)
+#define OR_THROW(expr) EXPECT_OnAbortHandler("Caught exception: " EXPECT_INTERNAL_STR(expr), __FILE__, __LINE__)
 #endif
 #endif
 

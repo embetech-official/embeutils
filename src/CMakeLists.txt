@@ -6,6 +6,7 @@ target_include_directories(
 )
 
 add_library(embetech::utils ALIAS embeutils)
+target_compile_definitions(embeutils INTERFACE $<$<CONFIG:Debug>:EMBEUTILS_DEBUG=1>)
 
 if (EMBEUTILS_EXPECT_VERBOSE)
   # Force enabled verbose

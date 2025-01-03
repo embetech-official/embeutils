@@ -12,7 +12,6 @@ TEST(EXPECT, Verbosity) {
   try {
     EXPECT(false) OR_ABORT("my_reason");
   } catch(embeutils_exception const &e) {
-    EXPECT_STREQ(e.file, "ut_expect_verbosity.cpp");
     EXPECT_STREQ(e.reason, "my_reason");
     SUCCEED();
     return;
