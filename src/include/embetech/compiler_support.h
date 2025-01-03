@@ -59,6 +59,11 @@
 // #    define EMBEUTILS_NONNULL(...) __attribute__((nonnull(__VA_ARGS__)))
 #define EMBEUTILS_NONNULL(...)
 
+
+/// Expands to the name of the input file as a C-string constant
+#define EMBEUTILS_FILE_NAME  __FILE_NAME__
+
+
 #else
 #error "Compiler not supported (yet)"
 #endif

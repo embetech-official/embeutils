@@ -5,14 +5,15 @@
 
 #include <embetech/expect.h>
 #include <gtest/gtest.h>
-#include <stdexcept>
+#include "embeutils_exception.hpp"
 
 TEST(EXPECT, Verbosity) {
 
   try {
     EXPECT(false) OR_ABORT("my_reason");
-  } catch(std::runtime_error const &e) {
-    EXPECT_STREQ(e.what(), "my_reason");
+  } catch(embeutils_exception const &e) {
+    EXPECT_STREQ(e.file, "ut_expect_verbosity.cpp");
+    EXPECT_STREQ(e.reason, "my_reason");
     SUCCEED();
     return;
   }
