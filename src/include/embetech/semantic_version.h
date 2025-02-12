@@ -53,11 +53,11 @@ static inline int SEMVER_Compare(SemanticVersion lhs, SemanticVersion rhs) {
     return (lhs.major > rhs.major) ? 1 : -1;
   }
 
-  if((lhs.minor != rhs.minor)) {
+  if(lhs.minor != rhs.minor) {
     return lhs.minor > rhs.minor ? 1 : -1;
   }
 
-  if((lhs.patch != rhs.patch)) {
+  if(lhs.patch != rhs.patch) {
     return lhs.patch > rhs.patch ? 1 : -1;
   }
 
