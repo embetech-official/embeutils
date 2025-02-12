@@ -13,9 +13,11 @@ FetchContent_MakeAvailable(googletest)
 target_compile_options(gtest PRIVATE -Wno-null-dereference)
 
 add_executable(
-  embeutils_ut ut_expect.cpp ut_expect_extra_off.cpp ut_expect_extra_on.cpp ut_expect_verbosity.cpp
+  embeutils_ut ut_expect.cpp ut_expect_extra_off.cpp ut_expect_extra_on.cpp ut_expect_verbosity.cpp ut_semver.cpp
 )
 target_include_directories(embeutils_ut PRIVATE include)
+target_compile_features(embeutils_ut PRIVATE cxx_std_20)
+
 target_link_libraries(embeutils_ut PRIVATE embetech::utils gtest_main)
 include(GoogleTest)
 gtest_discover_tests(embeutils_ut)
