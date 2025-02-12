@@ -37,6 +37,13 @@ typedef struct SemanticVersion {
  */
 static inline int SEMVER_Compare(SemanticVersion lhs, SemanticVersion rhs);
 
+/**
+ * Compares two semantic version strings and returns true if lhs is newer than rhs
+ *
+ * @param lhs left hand side of the comparison
+ * @param rhs right hand side of the comparison
+ * @return true if lhs > rhs
+ */
 static inline bool SEMVER_IsNewer(SemanticVersion lhs, SemanticVersion rhs);
 
 // Inline implementation below
