@@ -17,10 +17,21 @@
 extern "C" {
 #endif
 
+/**
+ * Binary representation of a semantic version
+ * The fields should be understood as described in https://semver.org
+ */
 typedef struct SemanticVersion {
+  /// If different, the API is not compatible
   uint8_t major;
+  
+  /// Depicts new features that are backward compatible
   uint8_t minor;
+  
+  /// Bug fixes that are backward compatible
   uint16_t patch;
+  
+  /// Version metadata. Not used in the comparison, but may be used to identify a specific build, eg. a commit hash
   uint32_t id;
 } SemanticVersion;
 
