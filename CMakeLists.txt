@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25)
 
-project(embeutils VERSION 1.0.4)
+project(embeutils VERSION 1.1.0)
 
 # The verbose messages are enabled by default in Debug builds. If you want to force DISABLE them,
 # you need to unset the cache variable and set non-cache variable to OFF
