@@ -1,0 +1,25 @@
+name: Build all
+
+on:
+  workflow_dispatch:
+  
+  workflow_call:
+
+jobs:
+  build_all:
+    strategy:
+      fail-fast: false
+      matrix:
+        configure_preset: [native]
+
+
+    secrets: inherit
+    with:
+      configure_preset: ${{ matrix.configure_preset }}
+      build_target: install
+      artifact_name: embeutils-${{ matrix.configure_preset }}
+
+
+
+
+
