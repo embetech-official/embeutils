@@ -9,6 +9,9 @@ jobs:
   cmake_install:
     runs-on: ubuntu-latest
     steps:
+      - name: Download doxygen
+        run: sudo apt-get install doxygen -y
+    
       - uses: lukka/get-cmake@latest
         with:
           useLocalCache: true
@@ -31,9 +34,3 @@ jobs:
         with:
           name: embeutils
           path: native/install
-      
-
-
-
-
-
