@@ -28,9 +28,9 @@ jobs:
         run: cmake --build --preset install
 
       - name: Test
-        run: ctest --preset native
+        run: ctest --preset native   
         
       - uses: actions/upload-artifact@v4
         with:
-          name: embeutils
+          name: embeutils-${{ github.ref_name }} 
           path: build/native/install
