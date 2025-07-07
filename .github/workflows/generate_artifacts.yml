@@ -6,7 +6,7 @@ on:
   workflow_call:
 
 jobs:
-  cmake_install:
+  test_and_release:
     runs-on: ubuntu-latest
     steps:
       - name: Download doxygen
