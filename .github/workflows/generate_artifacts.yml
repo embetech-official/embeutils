@@ -1,4 +1,4 @@
-name: Build all
+name: Generate Artifacts
 
 on:
   workflow_dispatch:
@@ -6,17 +6,32 @@ on:
   workflow_call:
 
 jobs:
-  build_all:
-    strategy:
-      fail-fast: false
-      matrix:
-        configure_preset: [native]
-    uses: embetech-official/embenet-toolchains/.github/workflows/cmake_build.yml@main
-    secrets: inherit
-    with:
-      configure_preset: ${{ matrix.configure_preset }}
-      build_target: install
-      artifact_name: embeutils-${{ matrix.configure_preset }}
+  cmake_install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: lukka/get-cmake@latest
+        with:
+          useLocalCache: true
+      
+      - uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake --preset native
+
+      - name: Build tests
+        run: cmake --build --preset ut
+
+      - name: Build release
+        run: cmake --build --preset install
+
+      - name: Test
+        run: ctest --preset native
+        
+      - uses: actions/upload-artifact@v4
+        with:
+          name: embeutils
+          path: native/install
+      
 
 
 
