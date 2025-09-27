@@ -57,13 +57,13 @@
  *
  * @note For MSVC use only with __declspec(align(1)) before struct, not for individual fields.
  */
-#if (1 == EMBEUTILS_COMPILER_GCC) || (1 == EMBEUTILS_COMPILER_CLANG)
+#if defined(EMBEUTILS_COMPILER_GCC) || defined(EMBEUTILS_COMPILER_CLANG)
 #define EMBEUTILS_PACKED __attribute__((packed))
-#elif (1 == EMBEUTILS_COMPILER_MSVC)
+#elif defined(EMBEUTILS_COMPILER_MSVC)
 #define EMBEUTILS_PACKED __declspec(align(1))
-#elif (1 == EMBEUTILS_COMPILER_KEIL)
+#elif defined(EMBEUTILS_COMPILER_KEIL)
 #define EMBEUTILS_PACKED __packed
-#elif (1 == EMBEUTILS_COMPILER_IAR)
+#elif defined(EMBEUTILS_COMPILER_IAR)
 #define EMBEUTILS_PACKED __packed
 #else
 #define EMBEUTILS_PACKED
@@ -151,7 +151,7 @@
  */
 #ifdef __cplusplus
 #define EMBEUTILS_RESTRICT __restrict
-#elif __STDC_VERSION_ >= 199901L
+#elif __STDC_VERSION__ >= 199901L
 #define EMBEUTILS_RESTRICT restrict
 #else
 #define EMBEUTILS_RESTRICT
