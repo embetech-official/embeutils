@@ -4,7 +4,6 @@
 ![GitHub Release](https://img.shields.io/github/v/release/embetech-official/embeutils)
 ![GitHub License](https://img.shields.io/github/license/embetech-official/embeutils)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/dfab6840a2af4fb890993c76798a587e)](https://app.codacy.com/gh/embetech-official/embeutils/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=embetech-official_embeutils&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=embetech-official_embeutils)
 
 This is a small header-only library with some tools that are usefull for embedded firmware projects.\
 The tools include:
