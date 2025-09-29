@@ -131,9 +131,7 @@
  * @def EMBEUTILS_INLINE
  * Always inline function.
  */
-#if (__STDC_VERSION__ >= 202311L)
-#define EMBEUTILS_INLINE [[gnu::always_inline]]
-#elif defined(EMBEUTILS_COMPILER_GCC) || defined(EMBEUTILS_COMPILER_CLANG)
+#if defined(EMBEUTILS_COMPILER_GCC) || defined(EMBEUTILS_COMPILER_CLANG)
 #define EMBEUTILS_INLINE __attribute__((always_inline))
 #elif defined(EMBEUTILS_COMPILER_MSVC)
 #define EMBEUTILS_INLINE __forceinline
@@ -187,9 +185,7 @@
  *
  * @note GNU/Clang compiler checks this only with -Wnonnull flag (which is included in -Wall).
  */
-#if EMBEUTILS_HAS_STANDARD_ATTRIBUTE(gnu::nonnull)
-#define EMBEUTILS_NONNULL(...) [[gnu::nonnull(__VA_ARGS__)]]
-#elif defined(EMBEUTILS_COMPILER_GCC) || defined(EMBEUTILS_COMPILER_CLANG)
+#if defined(EMBEUTILS_COMPILER_GCC) || defined(EMBEUTILS_COMPILER_CLANG)
 #define EMBEUTILS_NONNULL(...) __attribute__((nonnull(__VA_ARGS__)))
 #else
 #define EMBEUTILS_NONNULL(...)
