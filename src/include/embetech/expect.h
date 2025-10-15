@@ -114,15 +114,13 @@ extern "C" {
 #define EMBEUTILS_EXPECT_VERBOSE 0
 #endif
 
-/// @internal @brief Noreturn attribute
-#define EXPECT_INTERNAL_NORETURN __attribute__((noreturn))
 /**
  * Abort handler. The program MUST not continue operation after calling this function. Its context MAY be used to safely restart the program
  * @param[in] why message describing reason why the contract was violated
  * @param[in] file printable filename
  * @param[in] line line where check was performed
  */
-EXPECT_INTERNAL_NORETURN void EXPECT_OnAbortHandler(char const *why, char const *file, int line);
+EMBEUTILS_NORETURN void EXPECT_OnAbortHandler(char const *why, char const *file, int line);
 
 /**
  * @brief Checks whether expression expr holds true value
@@ -136,7 +134,7 @@ EXPECT_INTERNAL_NORETURN void EXPECT_OnAbortHandler(char const *why, char const 
  * As the evaluation of the expression may be time consuming, it is possible to globally disable this kind of runtime checks by defining
  * EMBEUTILS_EXTRA_CHECKS to 0
  */
-#if(1 == EMBEUTILS_EXTRA_CHECKS)
+#if (1 == EMBEUTILS_EXTRA_CHECKS)
 #define EXPECT_EXTRA(expr) EXPECT(expr)
 #else
 #define EXPECT_EXTRA(expr) if(!(expr) && 0)

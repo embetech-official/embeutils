@@ -28,8 +28,7 @@ extern "C" {
  * @note The memory region that dst points to MUST be at least length long, otherwise the behaviour is undefined
  * @note The memory region that dst points to MUST NOT overlap with memory region that src points to.
  */
-static inline void ENDIANNESS_Reverse(void *EMBEUTILS_RESTRICT dst, void const *EMBEUTILS_RESTRICT src, size_t length) EMBEUTILS_INLINE
-    EMBEUTILS_NONNULL();
+static inline void ENDIANNESS_Reverse(void *EMBEUTILS_RESTRICT dst, void const *EMBEUTILS_RESTRICT src, size_t length) EMBEUTILS_NONNULL();
 
 /**
  * @brief Converts data from native endianness to big endian
@@ -201,4 +200,4 @@ static inline uint64_t ENDIANNESS_ntoh64(uint64_t network) {
 }
 #endif
 
-#endif 
+#endif
