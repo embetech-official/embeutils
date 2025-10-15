@@ -4,7 +4,7 @@
 
 extern "C" {
 
-EXPECT_INTERNAL_NORETURN void EXPECT_OnAbortHandler(char const *why, char const *file, int line) { throw embeutils_exception{why, file, line}; }
+void EXPECT_OnAbortHandler(char const *why, char const *file, int line) { throw embeutils_exception{why, file, line}; }
 }
 
 static auto do_expect_or_return(bool condition) {
