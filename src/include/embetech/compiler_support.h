@@ -60,7 +60,7 @@
 #if defined(EMBEUTILS_COMPILER_GCC) || defined(EMBEUTILS_COMPILER_CLANG)
 #define EMBEUTILS_PACKED __attribute__((packed))
 #elif defined(EMBEUTILS_COMPILER_MSVC)
-#define EMBEUTILS_PACKED __declspec(align(1))
+#define EMBEUTILS_PACKED _Pragma("pack(1)")
 #elif defined(EMBEUTILS_COMPILER_KEIL)
 #define EMBEUTILS_PACKED __packed
 #elif defined(EMBEUTILS_COMPILER_IAR)
