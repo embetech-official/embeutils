@@ -8,7 +8,8 @@
  *
  * This header provides portable macros for compiler-specific attributes such
  * as:
- * - EMBEUTILS_PACKED: Structure packing (no padding)
+ * - EMBEUTILS_PACKED: Structure packing (no padding) - DEPRECATED
+ * - EMBEUTILS_PACK_BEGIN and EMBEUTILS_PACK_END: Alternative structure packing (no padding)
  * - EMBEUTILS_NORETURN: Function does not return
  * - EMBEUTILS_WEAK: Weak symbol
  * - EMBEUTILS_NODISCARD: Warn if return value is unused
@@ -60,7 +61,7 @@
 #if defined(EMBEUTILS_COMPILER_GCC) || defined(EMBEUTILS_COMPILER_CLANG)
 #define EMBEUTILS_PACKED __attribute__((packed))
 #elif defined(EMBEUTILS_COMPILER_MSVC)
-#define EMBEUTILS_PACKED _Pragma("pack(1)")
+#define EMBEUTILS_PACKED _Pragma("message(\"ERROR: EMBEUTILS_PACKED is not supported for MSVC compiler, use EMBEUTILS_PACK_BEGIN() and EMBEUTILS_PACK_END() instead\")") error error error
 #elif defined(EMBEUTILS_COMPILER_KEIL)
 #define EMBEUTILS_PACKED __packed
 #elif defined(EMBEUTILS_COMPILER_IAR)
@@ -68,6 +69,20 @@
 #else
 #define EMBEUTILS_PACKED
 #endif
+
+
+/**
+ * @def EMBEUTILS_PACK_BEGIN
+ * Forces compiler to enable structure packing (no padding) from this point until next @ref EMBEUTILS_PACK_END is encountered.
+ */
+#define EMBEUTILS_PACK_BEGIN() _Pragma("pack(push, 1)")
+
+/**
+ * @def EMBEUTILS_PACK_END
+ * Restores compiler structure packing to the state before last @ref EMBEUTILS_PACK_BEGIN.
+ */
+#define EMBEUTILS_PACK_END() _Pragma("pack(pop)")
+
 
 /**
  * @def EMBEUTILS_WEAK
