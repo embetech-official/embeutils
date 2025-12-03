@@ -2,35 +2,39 @@ name: Generate Artifacts
 
 on:
   workflow_dispatch:
-  
   workflow_call:
 
 jobs:
-  test_and_release:
-    runs-on: ubuntu-latest
+  library:
+    runs-on: [self-hosted, linux, x64]
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - { toolchain: gcc, architecture: x86_64-linux-gnu }
+    env:
+      preset: ${{ matrix.config.toolchain }}::${{ matrix.config.architecture }}
     steps:
-      - name: Download doxygen
-        run: sudo apt-get install doxygen -y
-    
       - uses: lukka/get-cmake@latest
-        with:
-          useLocalCache: true
-      
+
       - uses: actions/checkout@v4
 
-      - name: Configure
-        run: cmake --preset native
-
-      - name: Build tests
-        run: cmake --build --preset ut
-
-      - name: Build release
-        run: cmake --build --preset install
-
-      - name: Test
-        run: ctest --preset native   
-        
-      - uses: actions/upload-artifact@v4
+      - uses: robinraju/release-downloader@v1
         with:
-          name: embeutils-${{ github.ref_name }} 
-          path: build/native/install
+          repository: embetech-official/cmake-presets
+          tag: v0.0.1
+          fileName: CMakeUserPresets.json
+
+      - uses: lukka/run-cmake@v10
+        with:
+          configurePreset: ${{ env.preset }}
+          configurePresetAdditionalArgs: '["-DEMBEUTILS_TESTS=0", "-DEMBEUTILS_EXAMPLES=0", "-DEMBEUTILS_DOC=0"]'
+          buildPreset: ${{ env.preset }}::install
+
+      - name: Upload library install directory
+        uses: actions/upload-artifact@v4
+        with:
+          name: libembeutils
+          path: |
+            install/${{ env.preset }}/**
+          if-no-files-found: error

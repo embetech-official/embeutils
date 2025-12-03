@@ -1,5 +1,9 @@
 include(FindDoxygen)
-find_package(Doxygen REQUIRED)
+
+if (NOT DOXYGEN_FOUND)
+  message(STATUS "Doxygen not found, documentation will not be generated")
+  return()
+endif ()
 
 set(DOXYGEN_PROJECT_NAME "EMBENET Utilities")
 set(USE_MDFILE_AS_MAINPAGE ${CMAKE_CURRENT_SOURCE_DIR}/embeutils.md)

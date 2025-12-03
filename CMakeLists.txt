@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.25)
 
-file(READ "${CMAKE_CURRENT_LIST_DIR}/VERSION" PROJECT_VERSION)
-project(embeutils VERSION ${PROJECT_VERSION} LANGUAGES CXX C)
+file(READ "${CMAKE_CURRENT_SOURCE_DIR}/VERSION" PROJECT_VERSION)
+project(embeutils VERSION ${PROJECT_VERSION})
 
 # The verbose messages are enabled by default in Debug builds. If you want to force DISABLE them,
 # you need to unset the cache variable and set non-cache variable to OFF
@@ -15,17 +15,19 @@ option(EMBEUTILS_INSTALL "Configure install target" ON)
 
 add_subdirectory(src)
 
+include(cmake/requirements.cmake)
+
 if (EMBEUTILS_DOC)
-  add_subdirectory(doc EXCLUDE_FROM_ALL)
+  add_subdirectory(doc)
 endif ()
 
 if (EMBEUTILS_TESTS)
   include(CTest)
-  add_subdirectory(tests EXCLUDE_FROM_ALL)
+  add_subdirectory(tests)
 endif ()
 
 if (EMBEUTILS_TESTS)
-  add_subdirectory(examples EXCLUDE_FROM_ALL)
+  add_subdirectory(examples)
 endif ()
 
 if (EMBEUTILS_INSTALL)
