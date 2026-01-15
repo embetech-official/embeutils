@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25)
 
-file(READ "${CMAKE_CURRENT_SOURCE_DIR}/VERSION" PROJECT_VERSION)
+file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/VERSION.txt" PROJECT_VERSION)
 project(embeutils VERSION ${PROJECT_VERSION})
 
 # The verbose messages are enabled by default in Debug builds. If you want to force DISABLE them,
