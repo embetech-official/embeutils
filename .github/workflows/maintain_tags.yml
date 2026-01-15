@@ -1,17 +1,13 @@
 name: 'Tags'
 
 on:
-    release:
-        types: [published]
+  release:
+    types: [published]
 
 jobs:
-    tags:
-        name: 'Tags'
-        runs-on: ubuntu-latest
-        timeout-minutes: 5
-
-        steps:
-            - name: 'Update Tags'
-              uses: cssnr/update-version-tags-action@v1
-              with:
-                  token: ${{ secrets.GITHUB_TOKEN }}
+  tags:
+    name: 'Tags'
+    runs-on: ubuntu-latest
+    steps:
+     - name: 'Update Tags'
+       uses: cssnr/update-version-tags-action@1ff20ac5555f024f5e72b7ccdf165b867878f953 # v2.0.0
