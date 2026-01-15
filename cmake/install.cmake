@@ -21,5 +21,5 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/embeutils-config.cmake
         DESTINATION ${METADATA_DIR}
 )
 
-install(FILES LICENSE DESTINATION ${METADATA_DIR})
+install(FILES LICENSE.txt DESTINATION ${METADATA_DIR})
 install(SCRIPT ${CMAKE_CURRENT_LIST_DIR}/install_header_licenses.cmake)
