@@ -4,7 +4,7 @@
  * @copyright ${PROJECT_COPYRIGHT}
  * @version   ${PROJECT_VERSION}
  * @purpose   Embeutils library
- * @brief     A set of utilities to handle endianness conversion
+ * @brief     Portable utilities for endianness conversion
  */
 
 #ifndef EMBEUTILS_ENDIANNESS_H_
@@ -22,51 +22,96 @@ extern "C" {
 
 /**
  * @brief Copies data from src into dst in reverse order
- * @param[in, out] dst pointer to memory region to store resulting data
+ * @param[in,out] dst pointer to memory region to store resulting data
  * @param[in] src data to be reversed
- * @param[in] length lenght of src
- * @note The memory region that dst points to MUST be at least length long, otherwise the behaviour is undefined
- * @note The memory region that dst points to MUST NOT overlap with memory region that src points to.
+ * @param[in] length length of src
+ * @note The memory region that dst points to MUST be at least length bytes long, otherwise the behaviour is undefined.
+ * @note The memory regions that dst and src point to MUST NOT overlap.
+ *
+ * @code
+ * void my_function(void) {
+ *     uint8_t src[4] = {0x01, 0x02, 0x03, 0x04};
+ *     uint8_t dst[4];
+ *     ENDIANNESS_Reverse(dst, src, sizeof(src));
+ *     // dst == {0x04, 0x03, 0x02, 0x01}
+ * }
+ * @endcode
  */
 static inline void ENDIANNESS_Reverse(void *EMBEUTILS_RESTRICT dst, void const *EMBEUTILS_RESTRICT src, size_t length) EMBEUTILS_NONNULL();
 
 /**
  * @brief Converts data from native endianness to big endian
- * @param[in, out] dst pointer to memory region to store resulting data
+ * @param[in,out] dst pointer to memory region to store resulting data
  * @param[in] src data to be converted
- * @param[in] length lenght of src
- * @note The memory region that dst points to MUST be at least length long, otherwise the behaviour is undefined
- * @note The memory region that dst points to MUST NOT overlap with memory region that src points to. *
+ * @param[in] length length of src
+ * @note The memory region that dst points to MUST be at least length bytes long, otherwise the behaviour is undefined.
+ * @note The memory regions that dst and src point to MUST NOT overlap.
+ *
+ * @code
+ * void my_function(void) {
+ *     uint32_t value = 0x12345678u;
+ *     uint8_t  buf[4];
+ *     ENDIANNESS_NativeToBig(buf, &value, sizeof(value));
+ *     // buf == {0x12, 0x34, 0x56, 0x78} regardless of host byte order
+ * }
+ * @endcode
  */
 static inline void ENDIANNESS_NativeToBig(void *EMBEUTILS_RESTRICT dst, void const *EMBEUTILS_RESTRICT src, size_t length) EMBEUTILS_NONNULL();
 
 /**
  * @brief Converts data from native endianness to little endian
- * @param[in, out] dst pointer to memory region to store resulting data
+ * @param[in,out] dst pointer to memory region to store resulting data
  * @param[in] src data to be converted
- * @param[in] length lenght of src
- * @note The memory region that dst points to MUST be at least length long, otherwise the behaviour is undefined
- * @note The memory region that dst points to MUST NOT overlap with memory region that src points to.
- *  */
+ * @param[in] length length of src
+ * @note The memory region that dst points to MUST be at least length bytes long, otherwise the behaviour is undefined.
+ * @note The memory regions that dst and src point to MUST NOT overlap.
+ *
+ * @code
+ * void my_function(void) {
+ *     uint32_t value = 0x12345678u;
+ *     uint8_t  buf[4];
+ *     ENDIANNESS_NativeToLittle(buf, &value, sizeof(value));
+ *     // buf == {0x78, 0x56, 0x34, 0x12} regardless of host byte order
+ * }
+ * @endcode
+ */
 static inline void ENDIANNESS_NativeToLittle(void *EMBEUTILS_RESTRICT dst, void const *EMBEUTILS_RESTRICT src, size_t length) EMBEUTILS_NONNULL();
 
 /**
  * @brief Converts data from big endian to native endianness
- * @param[in, out] dst pointer to memory region to store resulting data
+ * @param[in,out] dst pointer to memory region to store resulting data
  * @param[in] src data to be converted
- * @param[in] length lenght of src
- * @note The memory region that dst points to MUST be at least length long, otherwise the behaviour is undefined
- * @note The memory region that dst points to MUST NOT overlap with memory region that src points to.
- *  */
+ * @param[in] length length of src
+ * @note The memory region that dst points to MUST be at least length bytes long, otherwise the behaviour is undefined.
+ * @note The memory regions that dst and src point to MUST NOT overlap.
+ *
+ * @code
+ * void my_function(void) {
+ *     uint8_t  buf[4] = {0x12, 0x34, 0x56, 0x78};
+ *     uint32_t value;
+ *     ENDIANNESS_BigToNative(&value, buf, sizeof(value));
+ *     // value == 0x12345678u on any host
+ * }
+ * @endcode
+ */
 static inline void ENDIANNESS_BigToNative(void *EMBEUTILS_RESTRICT dst, void const *EMBEUTILS_RESTRICT src, size_t length) EMBEUTILS_NONNULL();
 
 /**
  * @brief Converts data from little endian to native endianness
- * @param[in, out] dst pointer to memory region to store resulting data
+ * @param[in,out] dst pointer to memory region to store resulting data
  * @param[in] src data to be converted
- * @param[in] length lenght of src
- * @note The memory region that dst points to MUST be at least length long, otherwise the behaviour is undefined
- * @note The memory region that dst points to MUST NOT overlap with memory region that src points to.
+ * @param[in] length length of src
+ * @note The memory region that dst points to MUST be at least length bytes long, otherwise the behaviour is undefined.
+ * @note The memory regions that dst and src point to MUST NOT overlap.
+ *
+ * @code
+ * void my_function(void) {
+ *     uint8_t  buf[4] = {0x78, 0x56, 0x34, 0x12};
+ *     uint32_t value;
+ *     ENDIANNESS_LittleToNative(&value, buf, sizeof(value));
+ *     // value == 0x12345678u on any host
+ * }
+ * @endcode
  */
 static inline void ENDIANNESS_LittleToNative(void *EMBEUTILS_RESTRICT dst, void const *EMBEUTILS_RESTRICT src, size_t length) EMBEUTILS_NONNULL();
 
@@ -74,6 +119,12 @@ static inline void ENDIANNESS_LittleToNative(void *EMBEUTILS_RESTRICT dst, void 
  * @brief Converts 16-bit data from native endianness to network endianness
  * @param[in] host data to be converted
  * @return converted data
+ *
+ * @code
+ * void my_function(void) {
+ *     uint16_t net = ENDIANNESS_hton16(0x1234u);
+ * }
+ * @endcode
  */
 static inline uint16_t ENDIANNESS_hton16(uint16_t host);
 
@@ -81,6 +132,12 @@ static inline uint16_t ENDIANNESS_hton16(uint16_t host);
  * @brief Converts 32-bit data from native endianness to network endianness
  * @param[in] host data to be converted
  * @return converted data
+ *
+ * @code
+ * void my_function(void) {
+ *     uint32_t net = ENDIANNESS_hton32(0x12345678u);
+ * }
+ * @endcode
  */
 static inline uint32_t ENDIANNESS_hton32(uint32_t host);
 
@@ -88,27 +145,51 @@ static inline uint32_t ENDIANNESS_hton32(uint32_t host);
  * @brief Converts 64-bit data from native endianness to network endianness
  * @param[in] host data to be converted
  * @return converted data
+ *
+ * @code
+ * void my_function(void) {
+ *     uint64_t net = ENDIANNESS_hton64(0x123456789ABCDEF0ull);
+ * }
+ * @endcode
  */
 static inline uint64_t ENDIANNESS_hton64(uint64_t host);
 
 /**
  * @brief Converts 16-bit data from network endianness to native endianness
- * @param[in] host data to be converted
+ * @param[in] network data to be converted
  * @return converted data
+ *
+ * @code
+ * void my_function(uint16_t received_bytes) {
+ *     uint16_t host = ENDIANNESS_ntoh16(received_bytes);
+ * }
+ * @endcode
  */
 static inline uint16_t ENDIANNESS_ntoh16(uint16_t network);
 
 /**
  * @brief Converts 32-bit data from network endianness to native endianness
- * @param[in] host data to be converted
+ * @param[in] network data to be converted
  * @return converted data
+ *
+ * @code
+ * void my_function(uint32_t received_bytes) {
+ *     uint32_t host = ENDIANNESS_ntoh32(received_bytes);
+ * }
+ * @endcode
  */
 static inline uint32_t ENDIANNESS_ntoh32(uint32_t network);
 
 /**
  * @brief Converts 64-bit data from network endianness to native endianness
- * @param[in] host data to be converted
+ * @param[in] network data to be converted
  * @return converted data
+ *
+ * @code
+ * void my_function(uint64_t received_bytes) {
+ *     uint64_t host = ENDIANNESS_ntoh64(received_bytes);
+ * }
+ * @endcode
  */
 static inline uint64_t ENDIANNESS_ntoh64(uint64_t network);
 
