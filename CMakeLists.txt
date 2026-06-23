@@ -9,7 +9,6 @@ option(EMBEUTILS_EXPECT_VERBOSE "Forces verbose messages in abort handler" OFF)
 option(EMBEUTILS_EXTRA_CHECKS "Enables additional checks at runtime" OFF)
 
 option(EMBEUTILS_TESTS "Build test cases" ${PROJECT_IS_TOP_LEVEL})
-option(EMBEUTILS_EXAMPLES "Build examples" ${PROJECT_IS_TOP_LEVEL})
 option(EMBEUTILS_DOC "Build documentation" ${PROJECT_IS_TOP_LEVEL})
 option(EMBEUTILS_INSTALL "Configure install target" ON)
 
@@ -24,10 +23,6 @@ endif ()
 if (EMBEUTILS_TESTS)
   include(CTest)
   add_subdirectory(tests)
-endif ()
-
-if (EMBEUTILS_TESTS)
-  add_subdirectory(examples)
 endif ()
 
 if (EMBEUTILS_INSTALL)
