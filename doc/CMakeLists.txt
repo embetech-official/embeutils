@@ -47,6 +47,6 @@ set(WARN_IF_INCOMPLETE_DOC YES)
 set(WARN_NO_PARAMDOC YES)
 
 doxygen_add_docs(
-  embeutils_doc ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/src/include/embetech
+  embeutils_doc ALL ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/src/include/embetech
   COMMENT "Generate documentation"
 )

@@ -26,7 +26,10 @@
 #ifndef EMBEUTILS_COMPILER_SUPPORT_H_
 #define EMBEUTILS_COMPILER_SUPPORT_H_
 
-#if (__STDC_VERSION__ >= 202311L) || (__cplusplus >= 201103L)
+// Pull in C11 compatibility macros: alignas/alignof from <stdalign.h> and
+// static_assert from <assert.h>. In C23 and C++ these are keywords, but in
+// C11–C17 they are only available via these headers.
+#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 201112L
 #include <assert.h>
 #include <stdalign.h>
 #endif
@@ -54,12 +57,24 @@
 
 /**
  * @def EMBEUTILS_PACKED
+ * @deprecated Use @ref EMBEUTILS_PACK_BEGIN and @ref EMBEUTILS_PACK_END instead.
+ *
  * Forces compiler to produce structure without padding (sizeof(structure) equals sum of sizeof(structure fields)).
  *
  * @note For MSVC use only with __declspec(align(1)) before struct, not for individual fields.
+ *
+ * @code
+ * // Deprecated — prefer EMBEUTILS_PACK_BEGIN / EMBEUTILS_PACK_END
+ * typedef struct {
+ *     uint8_t  a;
+ *     uint32_t b;
+ * } EMBEUTILS_PACKED my_function_args_t;
+ * @endcode
  */
 #if defined(EMBEUTILS_COMPILER_GCC) || defined(EMBEUTILS_COMPILER_CLANG)
-#define EMBEUTILS_PACKED __attribute__((packed))
+#define EMBEUTILS_PACKED \
+  _Pragma("GCC warning \"EMBEUTILS_PACKED is deprecated, use EMBEUTILS_PACK_BEGIN() and EMBEUTILS_PACK_END() instead\"") \
+  __attribute__((packed))
 #elif defined(EMBEUTILS_COMPILER_MSVC)
 #define EMBEUTILS_PACKED _Pragma("message(\"ERROR: EMBEUTILS_PACKED is not supported for MSVC compiler, use EMBEUTILS_PACK_BEGIN() and EMBEUTILS_PACK_END() instead\")") error error error
 #elif defined(EMBEUTILS_COMPILER_KEIL)
@@ -74,19 +89,40 @@
 /**
  * @def EMBEUTILS_PACK_BEGIN
  * Forces compiler to enable structure packing (no padding) from this point until next @ref EMBEUTILS_PACK_END is encountered.
+ *
+ * @code
+ * EMBEUTILS_PACK_BEGIN()
+ * typedef struct {
+ *     uint8_t  a;
+ *     uint32_t b;
+ * } my_function_args_t;
+ * EMBEUTILS_PACK_END()
+ * @endcode
  */
 #define EMBEUTILS_PACK_BEGIN() _Pragma("pack(push, 1)")
 
 /**
  * @def EMBEUTILS_PACK_END
  * Restores compiler structure packing to the state before last @ref EMBEUTILS_PACK_BEGIN.
+ *
+ * @code
+ * EMBEUTILS_PACK_BEGIN()
+ * typedef struct { uint8_t a; uint32_t b; } my_function_args_t;
+ * EMBEUTILS_PACK_END()
+ * @endcode
  */
 #define EMBEUTILS_PACK_END() _Pragma("pack(pop)")
 
 
 /**
  * @def EMBEUTILS_WEAK
- * Informs compiler that the symbol MUST be emitted as weak symbol.
+ * Marks the symbol as a weak definition, allowing it to be overridden by a strong definition at link time.
+ *
+ * @code
+ * EMBEUTILS_WEAK void my_function(void) {
+ *     // Default implementation — can be replaced by a strong definition in another TU
+ * }
+ * @endcode
  */
 #if defined(EMBEUTILS_COMPILER_GCC) || defined(EMBEUTILS_COMPILER_CLANG)
 #define EMBEUTILS_WEAK __attribute__((weak))
@@ -101,6 +137,8 @@
 /**
  * @def EMBEUTILS_NORETURN
  * Informs compiler that the function may not return (i.e. has infinite loop, or throws).
+ *
+ * @note This macro MUST be placed BEFORE the return type of the function declaration.
  */
 #if EMBEUTILS_HAS_STANDARD_ATTRIBUTE(noreturn)
 #define EMBEUTILS_NORETURN [[noreturn]]
@@ -119,6 +157,13 @@
 /**
  * @def EMBEUTILS_NODISCARD
  * Warns if the return value of the function is not used.
+ *
+ * @note This macro MUST be placed BEFORE the return type of the function declaration.
+ *       It cannot be placed after the parameter list.
+ *
+ * @code
+ * EMBEUTILS_NODISCARD int my_function(void);
+ * @endcode
  */
 #if EMBEUTILS_HAS_STANDARD_ATTRIBUTE(nodiscard)
 #define EMBEUTILS_NODISCARD [[nodiscard]]
@@ -132,7 +177,19 @@
 
 /**
  * @def EMBEUTILS_FALLTHROUGH
- * Indicates that the fall through from the previous case label is intentional and should not be diagnosed by a compiler that warns on fallthrough.
+ * Indicates that the fall-through from the previous case label is intentional
+ * and should not be diagnosed by compilers that warn on implicit fallthrough.
+ *
+ * @code
+ * switch (my_function()) {
+ *     case 0:
+ *         handle_zero();
+ *         EMBEUTILS_FALLTHROUGH;
+ *     case 1:
+ *         handle_one_or_zero();
+ *         break;
+ * }
+ * @endcode
  */
 #if EMBEUTILS_HAS_STANDARD_ATTRIBUTE(fallthrough)
 #define EMBEUTILS_FALLTHROUGH [[fallthrough]]
@@ -144,7 +201,11 @@
 
 /**
  * @def EMBEUTILS_INLINE
- * Always inline function.
+ * Forces the compiler to always inline a function.
+ *
+ * @note For GCC and Clang, combine with the @c inline keyword:
+ *       @code static EMBEUTILS_INLINE inline int foo(void) { return 0; } @endcode
+ *       For MSVC and Keil, the macro already implies the @c inline keyword.
  */
 #if defined(EMBEUTILS_COMPILER_GCC) || defined(EMBEUTILS_COMPILER_CLANG)
 #define EMBEUTILS_INLINE __attribute__((always_inline))
@@ -153,14 +214,18 @@
 #elif defined(EMBEUTILS_COMPILER_KEIL)
 #define EMBEUTILS_INLINE __inline
 #elif defined(EMBEUTILS_COMPILER_IAR)
-#define EMBEUTILS_INLINE __intrinsic
+#define EMBEUTILS_INLINE __inline
 #else
 #define EMBEUTILS_INLINE
 #endif
 
 /**
  * @def EMBEUTILS_RESTRICT
- * Provides portable mean of using C99 restrict keyword.
+ * Provides a portable means of using the C99 @c restrict keyword.
+ *
+ * @code
+ * void my_function(uint8_t * EMBEUTILS_RESTRICT dst, uint8_t const * EMBEUTILS_RESTRICT src, size_t len);
+ * @endcode
  */
 #ifdef __cplusplus
 #define EMBEUTILS_RESTRICT __restrict
@@ -172,10 +237,11 @@
 
 /**
  * @def EMBEUTILS_UNUSED(x)
- * Informs compiler that the argument is unused.
+ * Informs the compiler that the parameter @p x is intentionally unused.
  *
- * @param[in] x name of the argument to be marked as unused.
- * Usage: void function(int arg1, int EMBEUTILS_UNUSED(arg2)) { ... }
+ * @param[in] x Name of the parameter to suppress unused-parameter warnings for.
+ *
+ * Usage: @code void function(int arg1, int EMBEUTILS_UNUSED(arg2)) { ... } @endcode
  */
 #if EMBEUTILS_HAS_STANDARD_ATTRIBUTE(maybe_unused)
 #define EMBEUTILS_UNUSED(x) x [[maybe_unused]]
@@ -191,12 +257,15 @@
  * @def EMBEUTILS_NONNULL(...)
  * Warns when nullptr is provided as argument on given position.
  *
- * @param[in] ... list of arguments indices to be checked against nullptr. When no argument is provided, ALL of the pointer arguments are marked as
- * non-null.
+ * @param[in] ... list of argument indices to check against nullptr; when empty, ALL pointer arguments are marked as non-null.
  *
- * Usage:
- * - void func1(void* dst, void* src) EMBEUTILS_NONNULL() - both dst and src MUST NOT take nullptr. void func2(void* dst, void* src)
- * - void func2(void* dst, void* src) EMBEUTILS_NONNULL(2) - dst may be nullptr
+ * @code
+ * // Both dst and src must not be null
+ * void my_function(void *dst, void *src) EMBEUTILS_NONNULL();
+ *
+ * // Only src (argument 2) must not be null
+ * void my_function2(void *dst, void *src) EMBEUTILS_NONNULL(2);
+ * @endcode
  *
  * @note GNU/Clang compiler checks this only with -Wnonnull flag (which is included in -Wall).
  */
@@ -209,6 +278,10 @@
 /**
  * @def EMBEUTILS_STATIC_ASSERT(...)
  * Compile-time assertion.
+ *
+ * @code
+ * EMBEUTILS_STATIC_ASSERT(sizeof(int) == 4, "int must be 4 bytes on this platform");
+ * @endcode
  */
 #if !defined(EMBEUTILS_STATIC_ASSERT)
 #if (__STDC_VERSION__ >= 202311L) || (__cplusplus >= 201103L)
@@ -226,7 +299,11 @@
 
 /**
  * @def EMBEUTILS_ALIGNAS(x)
- * Alignment attribute for the structure.
+ * Specifies the alignment requirement for a variable or type.
+ *
+ * @param[in] x Required alignment in bytes (must be a power of two).
+ *
+ * Usage: @code EMBEUTILS_ALIGNAS(16) uint8_t buffer[64]; @endcode
  */
 #if !defined(EMBEUTILS_ALIGNAS)
 #if (__STDC_VERSION__ >= 202311L) || (__cplusplus >= 201103L)
@@ -248,7 +325,14 @@
 
 /**
  * @def EMBEUTILS_ALIGNOF(x)
- * Alignment query for the structure.
+ * Returns the alignment requirement of the type or variable @p x.
+ *
+ * @param[in] x Type or variable to query.
+ *
+ * @code
+ * size_t a = EMBEUTILS_ALIGNOF(double);
+ * EMBEUTILS_STATIC_ASSERT(EMBEUTILS_ALIGNOF(uint32_t) == 4, "unexpected alignment");
+ * @endcode
  */
 #if !defined(EMBEUTILS_ALIGNOF)
 #if (__STDC_VERSION__ >= 202311L) || (__cplusplus >= 201103L)
