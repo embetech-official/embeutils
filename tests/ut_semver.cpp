@@ -30,8 +30,8 @@ TEST(SEMVER, CompareEqual) {
 
 TEST(SEMVER, Compare) {
 
-  SemanticVersion h1 = {.major = 2, .minor = 1, .patch = 0, .id = 0};
-  SemanticVersion m1 = {.major = 2, .minor = 10, .patch = 1, .id = 0};
+  SemanticVersion h1 = {.major = 2, .minor = 10, .patch = 1, .id = 0};
+  SemanticVersion m1 = {.major = 2, .minor = 1, .patch = 0, .id = 0};
   SemanticVersion l1 = {.major = 1, .minor = 12, .patch = 3, .id = 0};
   EXPECT_GT(h1, m1);
   EXPECT_GT(h1, l1);

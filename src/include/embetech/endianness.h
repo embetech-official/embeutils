@@ -251,7 +251,7 @@ static inline uint64_t ENDIANNESS_hton64(uint64_t host) {
   return network;
 }
 
-static inline uint8_t ENDIANNESS_ntonh(uint8_t network) { return network; }
+static inline uint8_t ENDIANNESS_ntoh8(uint8_t network) { return network; }
 
 static inline uint16_t ENDIANNESS_ntoh16(uint16_t network) {
   uint16_t host;

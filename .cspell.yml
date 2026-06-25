@@ -26,6 +26,15 @@ ignoreRegExpList:
  - /-D[A-Z]+/g # ignore compiler define flags
 
 words:
+ - alignas
+ - alignof
+ - codacy
+ - nodiscard
+ - nonnull
+ - noreturn
+ - ntoh
+ - hton
+ - msvc
  - embeutils
  - embetile
  - embetech
