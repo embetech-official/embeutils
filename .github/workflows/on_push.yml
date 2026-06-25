@@ -1,19 +1,26 @@
-name: CI Tests
+name: CI
 
 on:
   push:
   workflow_dispatch:
   schedule:
-    - cron: '15 10 * * 1' # Run at 10:15 every Monday
-    
+    - cron: '15 10 * * 1' # 🕙 Run at 10:15 every Monday
+
 jobs:
-  build_all:
+  build_and_test:
+    name: 🔨 Build & Test (native GCC)
     runs-on: ubuntu-latest
     steps:
-     - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-     - uses: ssciwr/doxygen-install@501e53b879da7648ab392ee226f5b90e42148449 # v1.6.4
-     - uses: lukka/get-cmake@9e07ecdcee1b12e5037e42f410b67f03e2f626e1 # v4.2.1
-     - uses: lukka/run-cmake@af1be47fd7c933593f687731bc6fdbee024d3ff4 # v10.8
-       with:
-         workflowPreset: 'native-gcc'
-      
+      - name: 📥 Checkout repository
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: 📚 Install Doxygen
+        uses: ssciwr/doxygen-install@329d88f5a303066a5bd006db7516b1925b86350e # v2.0.1
+
+      - name: 🛠️ Install CMake
+        uses: lukka/get-cmake@591817e96fcad43505fb4eae36172462abb3a42e # v4.3.3
+
+      - name: 🚀 Run CMake workflow
+        uses: lukka/run-cmake@5d55ea7949e25f69f0ecb516d8d572297e03a956 # v10.9
+        with:
+          workflowPreset: 'native-gcc'
