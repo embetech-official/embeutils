@@ -43,7 +43,6 @@ jobs:
           toolchain: ${{ matrix.config.toolchain }}
           vendor: ${{ matrix.config.vendor }}
           version: latest
-          cache-strategy: local
 
       - name: 📋 Download multiarch CMake presets
         uses: robinraju/release-downloader@28fc21f50d76778e7023361aa1f863e717d3d56f # v1.13
