@@ -71,7 +71,6 @@ jobs:
           toolchain: ${{ matrix.config.toolchain }}
           vendor: ${{ matrix.config.vendor }}
           version: latest
-          cache-strategy: local
 
       - name: ✍️ Write smoke-test translation unit
         working-directory: smoke
