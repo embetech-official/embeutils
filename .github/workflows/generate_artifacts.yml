@@ -20,7 +20,7 @@ jobs:
       matrix:
         config:
           - { architecture: x86_64-linux-gnu,          toolchain: x86_64-gcc,               vendor: ""    }
-          - { architecture: x86_64-windows-gnu,        toolchain: x86_64-w64-mingw32-msvcrt, vendor: ""    }
+          - { architecture: x86_64-windows-gnu,        toolchain: x86_64-w64-mingw32-gcc,    vendor: ""    }
           - { architecture: aarch64-linux-gnu,         toolchain: aarch64-none-linux-gnu,    vendor: ""    }
           - { architecture: aarch32-linux-gnu,         toolchain: arm-none-linux-gnueabihf,  vendor: ""    }
           - { architecture: thumbv6m-none-eabi,        toolchain: arm-none-eabi,             vendor: "arm" }
@@ -48,7 +48,7 @@ jobs:
         uses: robinraju/release-downloader@28fc21f50d76778e7023361aa1f863e717d3d56f # v1.13
         with:
           repository: embetech-official/cmake-presets
-          tag: v0.0.1
+          tag: v1.0.0
           fileName: CMakeUserPresets.json
 
       - name: 🏗️ Build and install library
