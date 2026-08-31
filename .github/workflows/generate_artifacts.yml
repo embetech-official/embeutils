@@ -4,32 +4,46 @@ on:
   workflow_dispatch:
   workflow_call:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
 jobs:
   library:
     name: 📦 Build & Install (${{ matrix.config.architecture }})
-    runs-on: [self-hosted, linux, x64]
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         config:
-          - { toolchain: gcc, architecture: x86_64-linux-gnu }
-          - { toolchain: gcc, architecture: x86_64-windows-gnu }
-          - { toolchain: gcc, architecture: aarch64-linux-gnu }
-          - { toolchain: gcc, architecture: aarch32-linux-gnu }
-          - { toolchain: gcc, architecture: thumbv6m-none-eabi }
-          - { toolchain: gcc, architecture: thumbv7em-none-eabi }
-          - { toolchain: gcc, architecture: thumbv7em-none-eabihf }
-          - { toolchain: gcc, architecture: thumbv7m-none-eabi }
-          - { toolchain: gcc, architecture: thumbv8m.base-none-eabi }
-          - { toolchain: gcc, architecture: thumbv8m.main-none-eabihf }
+          - { architecture: x86_64-linux-gnu,          toolchain: x86_64-gcc,               vendor: ""    }
+          - { architecture: x86_64-windows-gnu,        toolchain: x86_64-w64-mingw32-msvcrt, vendor: ""    }
+          - { architecture: aarch64-linux-gnu,         toolchain: aarch64-none-linux-gnu,    vendor: ""    }
+          - { architecture: aarch32-linux-gnu,         toolchain: arm-none-linux-gnueabihf,  vendor: ""    }
+          - { architecture: thumbv6m-none-eabi,        toolchain: arm-none-eabi,             vendor: "arm" }
+          - { architecture: thumbv7em-none-eabi,       toolchain: arm-none-eabi,             vendor: "arm" }
+          - { architecture: thumbv7em-none-eabihf,     toolchain: arm-none-eabi,             vendor: "arm" }
+          - { architecture: thumbv7m-none-eabi,        toolchain: arm-none-eabi,             vendor: "arm" }
+          - { architecture: thumbv8m.base-none-eabi,   toolchain: arm-none-eabi,             vendor: "arm" }
+          - { architecture: thumbv8m.main-none-eabihf, toolchain: arm-none-eabi,             vendor: "arm" }
     env:
-      preset: ${{ matrix.config.toolchain }}-${{ matrix.config.architecture }}
+      preset: gcc-${{ matrix.config.architecture }}
     steps:
-      - name: 🛠️ Install CMake
-        uses: lukka/get-cmake@591817e96fcad43505fb4eae36172462abb3a42e # v4.3.3
-
       - name: 📥 Checkout repository
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+
+      - name: 🔧 Setup GCC toolchain (${{ matrix.config.toolchain }})
+        uses: jmacheta/setup-gcc-toolchain@6c712f09af5efb677bc53e4dea195c60b66286e4 # v2.0.1
+        with:
+          toolchain: ${{ matrix.config.toolchain }}
+          vendor: ${{ matrix.config.vendor }}
+          version: latest
+          cache-strategy: local
 
       - name: 📋 Download multiarch CMake presets
         uses: robinraju/release-downloader@28fc21f50d76778e7023361aa1f863e717d3d56f # v1.13
