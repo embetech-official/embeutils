@@ -3,6 +3,7 @@ name: CI
 on:
   push:
   workflow_dispatch:
+  workflow_call:
   schedule:
     - cron: '15 10 * * 1' # 🕙 Run at 10:15 every Monday
 

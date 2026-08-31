@@ -3,8 +3,6 @@
  * @license   ${PROJECT_LICENSE}
  * @copyright ${PROJECT_COPYRIGHT}
  * @version   ${PROJECT_VERSION}
- * @purpose   Embeutils library
- * @brief     Semantic version representation and comparison utilities
  */
 
 #ifndef EMBEUTILS_SEMANTIC_VERSION_H_

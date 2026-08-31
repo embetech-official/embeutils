@@ -3,8 +3,6 @@
  * @license   ${PROJECT_LICENSE}
  * @copyright ${PROJECT_COPYRIGHT}
  * @version   ${PROJECT_VERSION}
- * @purpose   Embeutils library
- * @brief     Portable utilities for endianness conversion
  */
 
 #ifndef EMBEUTILS_ENDIANNESS_H_

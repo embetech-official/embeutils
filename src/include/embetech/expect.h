@@ -3,8 +3,6 @@
  * @license   ${PROJECT_LICENSE}
  * @copyright ${PROJECT_COPYRIGHT}
  * @version   ${PROJECT_VERSION}
- * @purpose   Embeutils library
- * @brief     Unified error-handling utilities (EXPECT / OR_RETURN / OR_ABORT)
  */
 
 #ifndef EMBEUTILS_EXPECT_H_

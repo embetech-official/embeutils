@@ -1,0 +1,14 @@
+version = 1
+SPDX-PackageName = "embeutils"
+SPDX-PackageSupplier = "Embetech sp. z o.o. <contact@embe.tech>"
+SPDX-PackageDownloadLocation = "https://github.com/embetech-official/embeutils"
+
+[[annotations]]
+path = "**"
+SPDX-FileCopyrightText = "Embetech sp. z o.o."
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = "cmake/CPM.cmake"
+SPDX-FileCopyrightText = "2019-2023 Lars Melchior and contributors"
+SPDX-License-Identifier = "MIT"

@@ -3,8 +3,6 @@
  * @license   ${PROJECT_LICENSE}
  * @copyright ${PROJECT_COPYRIGHT}
  * @version   ${PROJECT_VERSION}
- * @purpose   Embeutils library
- * @brief     A set of tools for working with compiler-specific attributes
  *
  * This header provides portable macros for compiler-specific attributes such
  * as:

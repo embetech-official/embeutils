@@ -13,29 +13,57 @@ permissions:
 
 jobs:
   library:
-    name: 📦 Build & Install (${{ matrix.config.architecture }})
+    name: 📦 Build & Install (arch independent)
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        config:
-          - { architecture: x86_64-linux-gnu,          toolchain: x86_64-gcc,               vendor: ""    }
-          - { architecture: x86_64-windows-gnu,        toolchain: x86_64-w64-mingw32-gcc,    vendor: ""    }
-          - { architecture: aarch64-linux-gnu,         toolchain: aarch64-none-linux-gnu,    vendor: ""    }
-          - { architecture: aarch32-linux-gnu,         toolchain: arm-none-linux-gnueabihf,  vendor: ""    }
-          - { architecture: thumbv6m-none-eabi,        toolchain: arm-none-eabi,             vendor: "arm" }
-          - { architecture: thumbv7em-none-eabi,       toolchain: arm-none-eabi,             vendor: "arm" }
-          - { architecture: thumbv7em-none-eabihf,     toolchain: arm-none-eabi,             vendor: "arm" }
-          - { architecture: thumbv7m-none-eabi,        toolchain: arm-none-eabi,             vendor: "arm" }
-          - { architecture: thumbv8m.base-none-eabi,   toolchain: arm-none-eabi,             vendor: "arm" }
-          - { architecture: thumbv8m.main-none-eabihf, toolchain: arm-none-eabi,             vendor: "arm" }
-    env:
-      preset: gcc-${{ matrix.config.architecture }}
     steps:
       - name: 📥 Checkout repository
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
+
+      - name: 🔧 Setup GCC toolchain
+        uses: jmacheta/setup-gcc-toolchain@6c712f09af5efb677bc53e4dea195c60b66286e4 # v2.0.1
+        with:
+          toolchain: x86_64-gcc
+          version: latest
+          cache-strategy: local
+
+      - name: 🏗️ Build and install library
+        uses: lukka/run-cmake@5d55ea7949e25f69f0ecb516d8d572297e03a956 # v10.9
+        with:
+          configurePreset: native-gcc
+          configurePresetAdditionalArgs: '["-DEMBEUTILS_TESTS=0", "-DEMBEUTILS_DOC=0"]'
+          buildPreset: native-gcc-install
+
+      - name: ⬆️ Upload library install directory
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: libembeutils
+          path: install/native-gcc/**
+          if-no-files-found: error
+
+  portability_check:
+    name: 🌍 Portability check (${{ matrix.config.toolchain }})
+    needs: library
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - { toolchain: x86_64-gcc,               vendor: ""    }
+          - { toolchain: x86_64-w64-mingw32-gcc,    vendor: ""    }
+          - { toolchain: aarch64-none-linux-gnu,    vendor: ""    }
+          - { toolchain: arm-none-linux-gnueabihf,  vendor: ""    }
+          - { toolchain: arm-none-eabi,             vendor: "arm" }
+    steps:
+      - name: 🧹 Prepare clean smoke-test directory
+        run: rm -rf smoke && mkdir -p smoke
+
+      - name: ⬇️ Download library package
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: libembeutils
+          path: smoke/package
 
       - name: 🔧 Setup GCC toolchain (${{ matrix.config.toolchain }})
         uses: jmacheta/setup-gcc-toolchain@6c712f09af5efb677bc53e4dea195c60b66286e4 # v2.0.1
@@ -43,25 +71,61 @@ jobs:
           toolchain: ${{ matrix.config.toolchain }}
           vendor: ${{ matrix.config.vendor }}
           version: latest
+          cache-strategy: local
 
-      - name: 📋 Download multiarch CMake presets
-        uses: robinraju/release-downloader@28fc21f50d76778e7023361aa1f863e717d3d56f # v1.13
+      - name: ✍️ Write smoke-test translation unit
+        working-directory: smoke
+        run: |
+          cat > smoke.c <<'EOF'
+          #include <embetech/endianness.h>
+
+          void embeutils_portability_smoke(void *dst, void const *src, size_t length) {
+              ENDIANNESS_Reverse(dst, src, length);
+          }
+          EOF
+          cat > CMakeLists.txt <<'EOF'
+          cmake_minimum_required(VERSION 3.28)
+          project(embeutils_portability_smoke C)
+          find_package(embeutils REQUIRED)
+          add_library(smoke OBJECT smoke.c)
+          target_link_libraries(smoke PRIVATE embetech::utils)
+          EOF
+
+      - name: 🌍 Compile smoke test against the installed package
+        working-directory: smoke
+        run: |
+          cmake -S . -B build -DCMAKE_PREFIX_PATH="${PWD}/package"
+          cmake --build build
+
+  documentation:
+    name: 📚 Build documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
-          repository: embetech-official/cmake-presets
-          tag: v1.0.0
-          fileName: CMakeUserPresets.json
+          persist-credentials: false
 
-      - name: 🏗️ Build and install library
+      - name: 📚 Install Doxygen
+        uses: ssciwr/doxygen-install@329d88f5a303066a5bd006db7516b1925b86350e # v2.0.1
+
+      - name: 🔧 Setup GCC toolchain
+        uses: jmacheta/setup-gcc-toolchain@6c712f09af5efb677bc53e4dea195c60b66286e4 # v2.0.1
+        with:
+          toolchain: x86_64-gcc
+          version: latest
+          cache-strategy: local
+
+      - name: 📚 Generate documentation
         uses: lukka/run-cmake@5d55ea7949e25f69f0ecb516d8d572297e03a956 # v10.9
         with:
-          configurePreset: ${{ env.preset }}
-          configurePresetAdditionalArgs: '["-DEMBEUTILS_TESTS=0", "-DEMBEUTILS_DOC=0", "-DEMBEUTILS_EXAMPLES=0"]'
-          buildPreset: ${{ env.preset }}-install
+          configurePreset: native-gcc
+          configurePresetAdditionalArgs: '["-DEMBEUTILS_TESTS=0", "-DEMBEUTILS_DOC=1"]'
+          buildPreset: native-gcc-all-release
 
-      - name: ⬆️ Upload library install directory
+      - name: ⬆️ Upload documentation
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: libembeutils-${{ matrix.config.architecture }}
-          path: |
-            install/${{ env.preset }}/**
+          name: libembeutils-docs
+          path: install/native-gcc/doc/**
           if-no-files-found: error

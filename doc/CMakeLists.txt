@@ -45,7 +45,20 @@ set(WARN_IF_DOC_ERROR YES)
 set(WARN_IF_INCOMPLETE_DOC YES)
 set(WARN_NO_PARAMDOC YES)
 
+# Create local copy of public headers and configure VERSION and LICENSE information
+include(${PROJECT_SOURCE_DIR}/cmake/install_header_licenses.cmake)
+get_target_property(EMBEUTILS_PUBLIC_HEADER_DIR embeutils HEADER_DIRS)
+get_target_property(EMBEUTILS_PUBLIC_HEADERS embeutils HEADER_SET)
+set(EMBEUTILS_DOC_STAGED_HEADERS_DIR ${CMAKE_CURRENT_BINARY_DIR}/staged_headers)
+foreach (header ${EMBEUTILS_PUBLIC_HEADERS})
+  file(RELATIVE_PATH relative_header ${EMBEUTILS_PUBLIC_HEADER_DIR} ${header})
+  embeutils_configure_license_header(${header} ${EMBEUTILS_DOC_STAGED_HEADERS_DIR}/${relative_header})
+endforeach ()
+
+# Strip the staged/build paths so generated docs show clean header names instead of build/gcc*/doc/staged_headers/...
+set(DOXYGEN_STRIP_FROM_PATH ${EMBEUTILS_DOC_STAGED_HEADERS_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
+
 doxygen_add_docs(
-  embeutils_doc ALL ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/src/include/embetech
+  embeutils_doc ALL ${CMAKE_CURRENT_SOURCE_DIR} ${EMBEUTILS_DOC_STAGED_HEADERS_DIR}
   COMMENT "Generate documentation"
 )
