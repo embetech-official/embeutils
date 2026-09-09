@@ -1,6 +1,7 @@
 # Embeutils - utilities for embedded firmware projects
 
-[![CI](https://github.com/embetech-official/embeutils/actions/workflows/on_push.yml/badge.svg)](https://github.com/embetech-official/embeutils/actions/workflows/on_push.yml)
+[![Weekly](https://github.com/embetech-official/embeutils/actions/workflows/weekly.yml/badge.svg)](https://github.com/embetech-official/embeutils/actions/workflows/weekly.yml)
+[![Monthly](https://github.com/embetech-official/embeutils/actions/workflows/monthly.yml/badge.svg)](https://github.com/embetech-official/embeutils/actions/workflows/monthly.yml)
 ![GitHub Release](https://img.shields.io/github/v/release/embetech-official/embeutils)
 ![GitHub License](https://img.shields.io/github/license/embetech-official/embeutils)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/dfab6840a2af4fb890993c76798a587e)](https://app.codacy.com/gh/embetech-official/embeutils/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)

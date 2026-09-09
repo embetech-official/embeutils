@@ -7,15 +7,19 @@ extern "C" {
 void EXPECT_OnAbortHandler(char const *why, char const *file, int line) { throw embeutils_exception{why, file, line}; }
 }
 
+// NOLINTBEGIN(readability-simplify-boolean-expr) EXPECT/OR_RETURN is a macro pair - the suggested rewrite does not compile
 static auto do_expect_or_return(bool condition) {
   EXPECT(condition) OR_RETURN(false);
   return true;
 }
+// NOLINTEND(readability-simplify-boolean-expr)
 
+// NOLINTBEGIN(readability-simplify-boolean-expr) EXPECT/OR_RETURN is a macro pair - the suggested rewrite does not compile
 static auto do_expect_extra_or_return(bool condition) {
   EXPECT_EXTRA(condition) OR_RETURN(false);
   return true;
 }
+// NOLINTEND(readability-simplify-boolean-expr)
 
 static auto do_expect_or_abort(bool condition) {
   EXPECT(condition) OR_ABORT("");

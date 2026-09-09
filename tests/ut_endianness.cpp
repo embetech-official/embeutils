@@ -8,14 +8,14 @@
 
 TEST(ENDIANNESS_Reverse, SingleByte) {
   uint8_t const src = 0xABU;
-  uint8_t       dst = 0x00U;
+  uint8_t dst = 0x00U;
   ENDIANNESS_Reverse(&dst, &src, 1U);
   EXPECT_EQ(dst, 0xABU);
 }
 
 TEST(ENDIANNESS_Reverse, FourBytes) {
   uint8_t const src[4] = {0x01U, 0x02U, 0x03U, 0x04U};
-  uint8_t       dst[4] = {};
+  uint8_t dst[4] = {};
   ENDIANNESS_Reverse(dst, src, sizeof(src));
   EXPECT_EQ(dst[0], 0x04U);
   EXPECT_EQ(dst[1], 0x03U);
@@ -25,8 +25,8 @@ TEST(ENDIANNESS_Reverse, FourBytes) {
 
 TEST(ENDIANNESS_Reverse, SelfInverting) {
   uint8_t const original[4] = {0x11U, 0x22U, 0x33U, 0x44U};
-  uint8_t       tmp[4]      = {};
-  uint8_t       result[4]   = {};
+  uint8_t tmp[4] = {};
+  uint8_t result[4] = {};
   ENDIANNESS_Reverse(tmp, original, sizeof(original));
   ENDIANNESS_Reverse(result, tmp, sizeof(tmp));
   EXPECT_EQ(std::memcmp(result, original, sizeof(original)), 0);
@@ -38,7 +38,7 @@ TEST(ENDIANNESS_Reverse, SelfInverting) {
 
 TEST(ENDIANNESS_NativeToBig, FourBytes) {
   uint32_t const value = 0x01020304U;
-  uint8_t        out[4]{};
+  uint8_t out[4]{};
   ENDIANNESS_NativeToBig(out, &value, sizeof(value));
   EXPECT_EQ(out[0], 0x01U);
   EXPECT_EQ(out[1], 0x02U);
@@ -48,15 +48,15 @@ TEST(ENDIANNESS_NativeToBig, FourBytes) {
 
 TEST(ENDIANNESS_BigToNative, FourBytes) {
   uint8_t const big[4] = {0x01U, 0x02U, 0x03U, 0x04U};
-  uint32_t      value{};
+  uint32_t value{};
   ENDIANNESS_BigToNative(&value, big, sizeof(value));
   EXPECT_EQ(value, 0x01020304U);
 }
 
 TEST(ENDIANNESS_BigToNative, RoundTripWithNativeToBig) {
   uint32_t const original = 0xDEADBEEFU;
-  uint8_t        buf[4]{};
-  uint32_t       result{};
+  uint8_t buf[4]{};
+  uint32_t result{};
   ENDIANNESS_NativeToBig(buf, &original, sizeof(original));
   ENDIANNESS_BigToNative(&result, buf, sizeof(result));
   EXPECT_EQ(result, original);
@@ -66,7 +66,7 @@ TEST(ENDIANNESS_BigToNative, RoundTripWithNativeToBig) {
 
 TEST(ENDIANNESS_NativeToLittle, FourBytes) {
   uint32_t const value = 0x01020304U;
-  uint8_t        out[4]{};
+  uint8_t out[4]{};
   ENDIANNESS_NativeToLittle(out, &value, sizeof(value));
   EXPECT_EQ(out[0], 0x04U);
   EXPECT_EQ(out[1], 0x03U);
@@ -76,15 +76,15 @@ TEST(ENDIANNESS_NativeToLittle, FourBytes) {
 
 TEST(ENDIANNESS_LittleToNative, FourBytes) {
   uint8_t const little[4] = {0x04U, 0x03U, 0x02U, 0x01U};
-  uint32_t      value{};
+  uint32_t value{};
   ENDIANNESS_LittleToNative(&value, little, sizeof(value));
   EXPECT_EQ(value, 0x01020304U);
 }
 
 TEST(ENDIANNESS_LittleToNative, RoundTripWithNativeToLittle) {
   uint32_t const original = 0xDEADBEEFU;
-  uint8_t        buf[4]{};
-  uint32_t       result{};
+  uint8_t buf[4]{};
+  uint32_t result{};
   ENDIANNESS_NativeToLittle(buf, &original, sizeof(original));
   ENDIANNESS_LittleToNative(&result, buf, sizeof(result));
   EXPECT_EQ(result, original);
@@ -96,14 +96,14 @@ TEST(ENDIANNESS_LittleToNative, RoundTripWithNativeToLittle) {
 
 TEST(ENDIANNESS_hton16, NetworkByteOrder) {
   uint16_t const net = ENDIANNESS_hton16(0x0102U);
-  uint8_t        bytes[2]{};
+  uint8_t bytes[2]{};
   std::memcpy(bytes, &net, sizeof(net));
   EXPECT_EQ(bytes[0], 0x01U);
   EXPECT_EQ(bytes[1], 0x02U);
 }
 
 TEST(ENDIANNESS_ntoh16, HostByteOrder) {
-  uint8_t  net_bytes[2] = {0x01U, 0x02U};
+  uint8_t net_bytes[2] = {0x01U, 0x02U};
   uint16_t net{};
   std::memcpy(&net, net_bytes, sizeof(net));
   EXPECT_EQ(ENDIANNESS_ntoh16(net), 0x0102U);
@@ -116,7 +116,7 @@ TEST(ENDIANNESS_ntoh16, RoundTrip) {
 
 TEST(ENDIANNESS_hton32, NetworkByteOrder) {
   uint32_t const net = ENDIANNESS_hton32(0x01020304U);
-  uint8_t        bytes[4]{};
+  uint8_t bytes[4]{};
   std::memcpy(bytes, &net, sizeof(net));
   EXPECT_EQ(bytes[0], 0x01U);
   EXPECT_EQ(bytes[1], 0x02U);
@@ -125,7 +125,7 @@ TEST(ENDIANNESS_hton32, NetworkByteOrder) {
 }
 
 TEST(ENDIANNESS_ntoh32, HostByteOrder) {
-  uint8_t  net_bytes[4] = {0x01U, 0x02U, 0x03U, 0x04U};
+  uint8_t net_bytes[4] = {0x01U, 0x02U, 0x03U, 0x04U};
   uint32_t net{};
   std::memcpy(&net, net_bytes, sizeof(net));
   EXPECT_EQ(ENDIANNESS_ntoh32(net), 0x01020304U);
@@ -138,7 +138,7 @@ TEST(ENDIANNESS_ntoh32, RoundTrip) {
 
 TEST(ENDIANNESS_hton64, NetworkByteOrder) {
   uint64_t const net = ENDIANNESS_hton64(0x0102030405060708ULL);
-  uint8_t        bytes[8]{};
+  uint8_t bytes[8]{};
   std::memcpy(bytes, &net, sizeof(net));
   EXPECT_EQ(bytes[0], 0x01U);
   EXPECT_EQ(bytes[1], 0x02U);
@@ -151,7 +151,7 @@ TEST(ENDIANNESS_hton64, NetworkByteOrder) {
 }
 
 TEST(ENDIANNESS_ntoh64, HostByteOrder) {
-  uint8_t  net_bytes[8] = {0x01U, 0x02U, 0x03U, 0x04U, 0x05U, 0x06U, 0x07U, 0x08U};
+  uint8_t net_bytes[8] = {0x01U, 0x02U, 0x03U, 0x04U, 0x05U, 0x06U, 0x07U, 0x08U};
   uint64_t net{};
   std::memcpy(&net, net_bytes, sizeof(net));
   EXPECT_EQ(ENDIANNESS_ntoh64(net), 0x0102030405060708ULL);

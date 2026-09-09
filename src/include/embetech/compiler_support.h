@@ -70,11 +70,12 @@
  * @endcode
  */
 #if defined(EMBEUTILS_COMPILER_GCC) || defined(EMBEUTILS_COMPILER_CLANG)
-#define EMBEUTILS_PACKED \
-  _Pragma("GCC warning \"EMBEUTILS_PACKED is deprecated, use EMBEUTILS_PACK_BEGIN() and EMBEUTILS_PACK_END() instead\"") \
-  __attribute__((packed))
+#define EMBEUTILS_PACKED                                                                                                                             \
+  _Pragma("GCC warning \"EMBEUTILS_PACKED is deprecated, use EMBEUTILS_PACK_BEGIN() and EMBEUTILS_PACK_END() instead\"") __attribute__((packed))
 #elif defined(EMBEUTILS_COMPILER_MSVC)
-#define EMBEUTILS_PACKED _Pragma("message(\"ERROR: EMBEUTILS_PACKED is not supported for MSVC compiler, use EMBEUTILS_PACK_BEGIN() and EMBEUTILS_PACK_END() instead\")") error error error
+#define EMBEUTILS_PACKED                                                                                                                             \
+  _Pragma("message(\"ERROR: EMBEUTILS_PACKED is not supported for MSVC compiler, use EMBEUTILS_PACK_BEGIN() and EMBEUTILS_PACK_END() instead\")")    \
+      error error error
 #elif defined(EMBEUTILS_COMPILER_KEIL)
 #define EMBEUTILS_PACKED __packed
 #elif defined(EMBEUTILS_COMPILER_IAR)
@@ -82,7 +83,6 @@
 #else
 #define EMBEUTILS_PACKED
 #endif
-
 
 /**
  * @def EMBEUTILS_PACK_BEGIN
@@ -110,7 +110,6 @@
  * @endcode
  */
 #define EMBEUTILS_PACK_END() _Pragma("pack(pop)")
-
 
 /**
  * @def EMBEUTILS_WEAK

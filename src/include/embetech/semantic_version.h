@@ -23,13 +23,13 @@ extern "C" {
 typedef struct SemanticVersion {
   /// If different, the API is not compatible
   uint8_t major;
-  
+
   /// Depicts new features that are backward compatible
   uint8_t minor;
-  
+
   /// Bug fixes that are backward compatible
   uint16_t patch;
-  
+
   /// Version metadata. Not used in the comparison, but may be used to identify a specific build, eg. a commit hash
   uint32_t id;
 } SemanticVersion;
@@ -145,24 +145,28 @@ static inline int SEMVER_Compare(SemanticVersion lhs, SemanticVersion rhs) {
 
 static inline bool SEMVER_IsNewer(SemanticVersion lhs, SemanticVersion rhs) { return SEMVER_Compare(lhs, rhs) > 0; }
 
-static inline bool SEMVER_IsValid(SemanticVersion v) {
-  return (bool)((v.major != 0U) || (v.minor != 0U) || (v.patch != 0U) || (v.id != 0U));
-}
+static inline bool SEMVER_IsValid(SemanticVersion v) { return (bool)((v.major != 0U) || (v.minor != 0U) || (v.patch != 0U) || (v.id != 0U)); }
 
 static inline SemanticVersion SEMVER_Parse(char const *str) {
   SemanticVersion const invalid = {0U, 0U, 0U, 0U};
   char *end;
 
   unsigned long const major = strtoul(str, &end, 10);
-  if(end == str || *end != '.' || major > UINT8_MAX) { return invalid; }
+  if(end == str || *end != '.' || major > UINT8_MAX) {
+    return invalid;
+  }
   str = end + 1;
 
   unsigned long const minor = strtoul(str, &end, 10);
-  if(end == str || *end != '.' || minor > UINT8_MAX) { return invalid; }
+  if(end == str || *end != '.' || minor > UINT8_MAX) {
+    return invalid;
+  }
   str = end + 1;
 
   unsigned long const patch = strtoul(str, &end, 10);
-  if(end == str || patch > UINT16_MAX) { return invalid; }
+  if(end == str || patch > UINT16_MAX) {
+    return invalid;
+  }
 
   uint32_t id = 0U;
   if(*end == '+') {
@@ -170,16 +174,22 @@ static inline SemanticVersion SEMVER_Parse(char const *str) {
     unsigned long const parsed_id = strtoul(str, &end, 16);
     if(end == str) {
       id = UINT32_MAX;
-      while(*end != '\0') { ++end; }
+      while(*end != '\0') {
+        ++end;
+      }
     } else {
       id = (uint32_t)parsed_id;
     }
   }
 
-  if(*end != '\0') { return invalid; }
+  if(*end != '\0') {
+    return invalid;
+  }
 
   SemanticVersion result = {(uint8_t)major, (uint8_t)minor, (uint16_t)patch, id};
-  if(!SEMVER_IsValid(result)) { return invalid; }
+  if(!SEMVER_IsValid(result)) {
+    return invalid;
+  }
   return result;
 }
 

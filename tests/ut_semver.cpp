@@ -13,12 +13,12 @@ static auto operator<=>(SemanticVersion const lhs, SemanticVersion const rhs) {
   return std::strong_ordering::equal;
 }
 
-static bool operator==(SemanticVersion const &lhs, SemanticVersion const &rhs) { return 0 == (lhs <=> rhs); }
+static bool operator==(SemanticVersion const &lhs, SemanticVersion const &rhs) { return nullptr == (lhs <=> rhs); }
 
 TEST(SEMVER, CompareEqual) {
 
   SemanticVersion lhs = {.major = 1, .minor = 2, .patch = 3, .id = 4};
-  SemanticVersion rhs = {.major = 1, .minor = 2, .patch = 3, .id = 4};
+  SemanticVersion const rhs = {.major = 1, .minor = 2, .patch = 3, .id = 4};
   ASSERT_EQ(lhs, rhs);
   ASSERT_EQ(rhs, lhs);
 
@@ -30,9 +30,9 @@ TEST(SEMVER, CompareEqual) {
 
 TEST(SEMVER, Compare) {
 
-  SemanticVersion h1 = {.major = 2, .minor = 10, .patch = 1, .id = 0};
-  SemanticVersion m1 = {.major = 2, .minor = 1, .patch = 0, .id = 0};
-  SemanticVersion l1 = {.major = 1, .minor = 12, .patch = 3, .id = 0};
+  SemanticVersion const h1 = {.major = 2, .minor = 10, .patch = 1, .id = 0};
+  SemanticVersion const m1 = {.major = 2, .minor = 1, .patch = 0, .id = 0};
+  SemanticVersion const l1 = {.major = 1, .minor = 12, .patch = 3, .id = 0};
   EXPECT_GT(h1, m1);
   EXPECT_GT(h1, l1);
   EXPECT_GT(m1, l1);
@@ -40,9 +40,9 @@ TEST(SEMVER, Compare) {
   EXPECT_LT(l1, h1);
   EXPECT_LT(l1, m1);
 
-  SemanticVersion h2 = {.major = 1, .minor = 4, .patch = 0, .id = 0};
-  SemanticVersion m2 = {.major = 1, .minor = 3, .patch = 2, .id = 0};
-  SemanticVersion l2 = {.major = 1, .minor = 2, .patch = 3, .id = 0};
+  SemanticVersion const h2 = {.major = 1, .minor = 4, .patch = 0, .id = 0};
+  SemanticVersion const m2 = {.major = 1, .minor = 3, .patch = 2, .id = 0};
+  SemanticVersion const l2 = {.major = 1, .minor = 2, .patch = 3, .id = 0};
   EXPECT_GT(h2, m2);
   EXPECT_GT(h2, l2);
   EXPECT_GT(m2, l2);
@@ -50,9 +50,9 @@ TEST(SEMVER, Compare) {
   EXPECT_LT(l2, h2);
   EXPECT_LT(l2, m2);
 
-  SemanticVersion h3 = {.major = 1, .minor = 2, .patch = 4, .id = 0};
-  SemanticVersion m3 = {.major = 1, .minor = 2, .patch = 3, .id = 0};
-  SemanticVersion l3 = {.major = 1, .minor = 2, .patch = 2, .id = 0};
+  SemanticVersion const h3 = {.major = 1, .minor = 2, .patch = 4, .id = 0};
+  SemanticVersion const m3 = {.major = 1, .minor = 2, .patch = 3, .id = 0};
+  SemanticVersion const l3 = {.major = 1, .minor = 2, .patch = 2, .id = 0};
   EXPECT_GT(h3, m3);
   EXPECT_GT(h3, l3);
   EXPECT_GT(m3, l3);
@@ -60,9 +60,9 @@ TEST(SEMVER, Compare) {
   EXPECT_LT(l3, h3);
   EXPECT_LT(l3, m3);
 
-  SemanticVersion h4 = {.major = 1, .minor = 2, .patch = 3, .id = 4};
-  SemanticVersion m4 = {.major = 1, .minor = 2, .patch = 3, .id = 3};
-  SemanticVersion l4 = {.major = 1, .minor = 2, .patch = 3, .id = 2};
+  SemanticVersion const h4 = {.major = 1, .minor = 2, .patch = 3, .id = 4};
+  SemanticVersion const m4 = {.major = 1, .minor = 2, .patch = 3, .id = 3};
+  SemanticVersion const l4 = {.major = 1, .minor = 2, .patch = 3, .id = 2};
   EXPECT_EQ(h4, m4);
   EXPECT_EQ(h4, l4);
   EXPECT_EQ(m4, l4);
@@ -98,7 +98,7 @@ TEST(SEMVER_IsNewer, IdIgnored) {
 // ---- SEMVER_Parse ----------------------------------------------------------
 
 TEST(SEMVER_Parse, ValidWithoutId) {
-  SemanticVersion v = SEMVER_Parse("1.2.3");
+  SemanticVersion const v = SEMVER_Parse("1.2.3");
   ASSERT_TRUE(SEMVER_IsValid(v));
   EXPECT_EQ(v.major, 1);
   EXPECT_EQ(v.minor, 2);
@@ -107,7 +107,7 @@ TEST(SEMVER_Parse, ValidWithoutId) {
 }
 
 TEST(SEMVER_Parse, ValidWithHexIdLower) {
-  SemanticVersion v = SEMVER_Parse("1.2.3+deadbeef");
+  SemanticVersion const v = SEMVER_Parse("1.2.3+deadbeef");
   ASSERT_TRUE(SEMVER_IsValid(v));
   EXPECT_EQ(v.major, 1);
   EXPECT_EQ(v.minor, 2);
@@ -116,13 +116,13 @@ TEST(SEMVER_Parse, ValidWithHexIdLower) {
 }
 
 TEST(SEMVER_Parse, ValidWithHexIdUpper) {
-  SemanticVersion v = SEMVER_Parse("1.2.3+DEADBEEF");
+  SemanticVersion const v = SEMVER_Parse("1.2.3+DEADBEEF");
   ASSERT_TRUE(SEMVER_IsValid(v));
   EXPECT_EQ(v.id, 0xDEADBEEFU);
 }
 
 TEST(SEMVER_Parse, ValidWithPureDecimalDigitsInId) {
-  SemanticVersion v = SEMVER_Parse("1.2.3+ff");
+  SemanticVersion const v = SEMVER_Parse("1.2.3+ff");
   ASSERT_TRUE(SEMVER_IsValid(v));
   EXPECT_EQ(v.id, 0xFFU);
 }
@@ -130,7 +130,7 @@ TEST(SEMVER_Parse, ValidWithPureDecimalDigitsInId) {
 TEST(SEMVER_Parse, InvalidZero) { EXPECT_FALSE(SEMVER_IsValid(SEMVER_Parse("0.0.0"))); }
 
 TEST(SEMVER_Parse, ValidMaxFields) {
-  SemanticVersion v = SEMVER_Parse("255.255.65535");
+  SemanticVersion const v = SEMVER_Parse("255.255.65535");
   ASSERT_TRUE(SEMVER_IsValid(v));
   EXPECT_EQ(v.major, 255);
   EXPECT_EQ(v.minor, 255);
@@ -138,13 +138,13 @@ TEST(SEMVER_Parse, ValidMaxFields) {
 }
 
 TEST(SEMVER_Parse, NonHexIdSetsSentinel) {
-  SemanticVersion v = SEMVER_Parse("1.2.3+xyz");
+  SemanticVersion const v = SEMVER_Parse("1.2.3+xyz");
   ASSERT_TRUE(SEMVER_IsValid(v));
   EXPECT_EQ(v.id, UINT32_MAX);
 }
 
 TEST(SEMVER_Parse, EmptyIdAfterPlusSetsSentinel) {
-  SemanticVersion v = SEMVER_Parse("1.2.3+");
+  SemanticVersion const v = SEMVER_Parse("1.2.3+");
   ASSERT_TRUE(SEMVER_IsValid(v));
   EXPECT_EQ(v.id, UINT32_MAX);
 }
@@ -165,7 +165,7 @@ TEST(SEMVER_Parse, InvalidTrailingChars) {
 TEST(SEMVER_Parse, InvalidEmpty) { EXPECT_FALSE(SEMVER_IsValid(SEMVER_Parse(""))); }
 
 TEST(SEMVER_Parse, ReturnsInvalidSentinelOnFailure) {
-  SemanticVersion v = SEMVER_Parse("bad");
+  SemanticVersion const v = SEMVER_Parse("bad");
   EXPECT_EQ(v.major, 0);
   EXPECT_EQ(v.minor, 0);
   EXPECT_EQ(v.patch, 0);
