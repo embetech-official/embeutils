@@ -22,4 +22,4 @@ install(EXPORT embeutils-targets NAMESPACE embetech:: DESTINATION ${METADATA_DIR
 
 install(SCRIPT ${CMAKE_CURRENT_LIST_DIR}/install_header_licenses.cmake)
 
-install(FILES LICENSE.txt DESTINATION .)
+install(FILES LICENSE.txt VERSION.txt DESTINATION .)
